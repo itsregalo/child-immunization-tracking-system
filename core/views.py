@@ -22,3 +22,11 @@ def ParentDashboard(request, *args, **kwargs):
         'parent_children': parent_children,
     }
     return render(request, 'parent_dashboard.html', context)
+
+@login_required
+def parent_profile_settings(request, *args, **kwargs):
+    parent = Parent.objects.get(user=request.user)
+    context = {
+
+    }
+    return render(request, 'profile-settings.html', context)
