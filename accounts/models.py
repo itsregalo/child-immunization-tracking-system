@@ -1,3 +1,4 @@
+from distutils.command.upload import upload
 from django.db import models
 from django.contrib.auth.models import AbstractUser
 from django.conf import settings
@@ -31,6 +32,7 @@ class Doctor(models.Model):
     phone_no = models.CharField(max_length=13, blank=True, null=True)
     address = models.CharField(max_length=254, blank=True, null=True)
     speciality = models.CharField(max_length=254, blank=True, null=True)
+    profile_picture = models.ImageField(upload_to='images/doctors_profile/%Y/%m', blank=True, null=True)
 
     def __str__(self):
         return self.user.username

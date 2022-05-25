@@ -44,13 +44,13 @@
 								<span></span>
 							</span>
 						</a>
-						<a href="index-2.html" class="navbar-brand logo">
+						<a href="{% url 'core:index' %}" class="navbar-brand logo">
 							<img src="{% static 'assets/img/logo.png' %}" class="img-fluid" alt="Logo">
 						</a>
 					</div>
 					<div class="main-menu-wrapper">
 						<div class="menu-header">
-							<a href="index-2.html" class="menu-logo">
+							<a href="{% url 'core:index' %}" class="menu-logo">
 								<img src="{% static 'assets/img/logo.png' %}" class="img-fluid" alt="Logo">
 							</a>
 							<a id="menu_close" class="menu-close" href="javascript:void(0);">
@@ -59,7 +59,7 @@
 						</div>
 						<ul class="main-nav">
 							<li class="active">
-								<a href="index-2.html">Home</a>
+								<a href="{% url 'core:index' %}">Home</a>
 							</li>
 							<li class="has-submenu">
 								<a href="#">Doctors <i class="fas fa-chevron-down"></i></a>
@@ -92,29 +92,30 @@
 								</ul>
 							</li>	
 							<li class="has-submenu">
-								<a href="#">Pages <i class="fas fa-chevron-down"></i></a>
-								<ul class="submenu">
-									<li><a href="voice-call.html">Voice Call</a></li>
-									<li><a href="video-call.html">Video Call</a></li>
-									<li><a href="search.html">Search Doctors</a></li>
-									<li><a href="calendar.html">Calendar</a></li>
-									<li><a href="components.html">Components</a></li>
-									<li class="has-submenu">
-										<a href="invoices.html">Invoices</a>
-										<ul class="submenu">
-											<li><a href="invoices.html">Invoices</a></li>
-											<li><a href="invoice-view.html">Invoice View</a></li>
-										</ul>
+								<a href="#">More <i class="fas fa-chevron-down"></i></a>
+								{% if request.user.is_authenticated %}
+									<ul class="submenu">
+										<li><a href="{% url 'accounts:login' %}">Logout</a></li>
+									</ul>
+								
+									{% else %}
+									<ul class="submenu">
+										<li><a href="{% url 'accounts:login' %}">Login</a></li>
+										<li><a href="register.html">Register</a></li>
+										<li><a href="forgot-password.html">Forgot Password</a></li>
+									</ul>
+								
+								{% endif %}
+							</li>
+							{% if request.user.is_authenticated %}
+
+								{% if request.user.is_admin %}
+									<li>
+										<a href="admin/index.html" target="_blank">Admin</a>
 									</li>
-									<li><a href="blank-page.html">Starter Page</a></li>
-									<li><a href="{% url 'accounts:login' %}">Login</a></li>
-									<li><a href="register.html">Register</a></li>
-									<li><a href="forgot-password.html">Forgot Password</a></li>
-								</ul>
-							</li>
-							<li>
-								<a href="admin/index.html" target="_blank">Admin</a>
-							</li>
+								{% endif %}
+							
+							{% endif %}
 							<li class="login-link">
 								<a href="{% url 'accounts:login' %}">Login / Signup</a>
 							</li>
@@ -127,12 +128,21 @@
 							</div>
 							<div class="header-contact-detail">
 								<p class="contact-header">Contact</p>
-								<p class="contact-info-header"> +1 315 369 5943</p>
+								<p class="contact-info-header"> +254 713 303092</p>
 							</div>
 						</li>
-						<li class="nav-item">
-							<a class="nav-link header-login" href="{% url 'accounts:login' %}">login / Signup </a>
-						</li>
+						{% if request.user.is_authenticated %}
+						
+							<li class="nav-item">
+								<a class="nav-link header-login" href="{% url 'accounts:logout' %}">logout </a>
+							</li>
+							
+						{% else %}
+							<li class="nav-item">
+								<a class="nav-link header-login" href="{% url 'accounts:login' %}">login / Signup</a>
+							</li>
+							
+						{% endif %}
 					</ul>
 				</nav>
 			</header>
@@ -193,7 +203,7 @@
 									<ul>
 										<li><a href="search.html"><i class="fas fa-angle-double-right"></i> Search for Doctors</a></li>
 										<li><a href="{% url 'accounts:login' %}"><i class="fas fa-angle-double-right"></i> Login</a></li>
-										<li><a href="register.html"><i class="fas fa-angle-double-right"></i> Register</a></li>
+										<li><a href="{% url 'accounts:register' %}"><i class="fas fa-angle-double-right"></i> Register</a></li>
 										<li><a href="booking.html"><i class="fas fa-angle-double-right"></i> Booking</a></li>
 										<li><a href="patient-dashboard.html"><i class="fas fa-angle-double-right"></i> Patient Dashboard</a></li>
 									</ul>
