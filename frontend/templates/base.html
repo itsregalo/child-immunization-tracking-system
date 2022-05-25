@@ -149,7 +149,9 @@
 										<p class="text-muted mb-0">Doctor</p>
 									</div>
 								</div>
-								<a class="dropdown-item" href="#">Dashboard</a>
+								{% if request.user.is_parent %}
+									<a class="dropdown-item" href="{% url 'core:parent-dashboard' %}">Dashboard</a>
+								{% endif %}
 								<a class="dropdown-item" href="#">Profile Settings</a>
 								<a class="dropdown-item" href="{% url 'accounts:logout' %}">Logout</a>
 							</div>
