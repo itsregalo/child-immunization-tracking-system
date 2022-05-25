@@ -18,6 +18,7 @@ class CustomUserAdmin(UserAdmin):
                 'first_name',
                 'last_name',
                 'password',
+                'phone_no',
 
             ), 
         }),
