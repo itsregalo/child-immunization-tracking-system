@@ -1,7 +1,13 @@
 from distutils.command.upload import upload
+from email.policy import default
+from tokenize import blank_re
 from django.db import models
 from django.contrib.auth.models import AbstractUser
 from django.conf import settings
+# imagekit
+from imagekit.models import ImageSpecField
+from imagekit.processors import ResizeToFill
+
 
 User = settings.AUTH_USER_MODEL
 # Create your models here.
@@ -33,7 +39,14 @@ class Doctor(models.Model):
     phone_no = models.CharField(max_length=13, blank=True, null=True)
     address = models.CharField(max_length=254, blank=True, null=True)
     speciality = models.CharField(max_length=254, blank=True, null=True)
-    profile_picture = models.ImageField(upload_to='images/doctors_profile/%Y/%m', blank=True, null=True)
+    profile_picture = models.ImageField(upload_to='images/doctors_profile/%Y/%m', 
+                                        default='images/default-avatar.jpg',
+                                        blank=True, null=True)
+    profile_picture_thumbnail = ImageSpecField(source='profile_picture',
+                                            processors=[ResizeToFill(100, 100)],
+                                            format='JPEG',
+                                            options={'quality': 60}
+                                                )
     is_verified = models.BooleanField(default=False)
 
     def __str__(self):
@@ -44,6 +57,14 @@ class Parent(models.Model):
     email = models.EmailField(max_length=254, blank=True, null=True)
     phone_no = models.CharField(max_length=13, blank=True, null=True)
     address = models.CharField(max_length=254, blank=True, null=True)
+    profile_picture = models.ImageField(upload_to='images/parents_profile/%Y/%m',
+                                                    default='images/default-avatar.jpg',
+                                                    blank=True, null=True)
+    profile_picture_thumbnail = ImageSpecField(source='profile_picture',
+                                            processors=[ResizeToFill(100, 100)],
+                                            format='JPEG',
+                                            options={'quality': 60}
+                                                )
 
     def __str__(self):
         return self.user.username
