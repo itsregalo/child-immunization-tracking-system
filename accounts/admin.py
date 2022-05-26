@@ -1,7 +1,7 @@
 from atexit import register
 from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin
-from .models import User, Profile
+from .models import User, Profile, Doctor, Parent
 # Register your models here.
 
 class CustomUserAdmin(UserAdmin):
@@ -46,3 +46,5 @@ class CustomUserAdmin(UserAdmin):
     )
 admin.site.register(User, CustomUserAdmin)
 admin.site.register(Profile)
+admin.site.register(Doctor)
+admin.site.register(Parent)

@@ -7,6 +7,8 @@ from django.core.mail import  send_mail
 from django.utils.encoding import force_bytes, force_str, DjangoUnicodeDecodeError
 from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode
 from django.contrib.sites.shortcuts import get_current_site
+
+from accounts.models import Doctor
 from .utils import token_gen
 from django.contrib.auth.tokens import PasswordResetTokenGenerator
 from django.contrib.auth import get_user_model
@@ -122,6 +124,86 @@ def RegisterView(request):
             return redirect('accounts:login')
             
     return render(request, 'auth/register.html', {})
+
+def DoctorRegistration(request):
+    if request.method == 'POST':
+        username = request.POST.get('username')
+        email = request.POST.get('email')
+        phone = request.POST.get('phone')
+        license_no = request.POST.get('license_no')
+        password1 = request.POST.get('password')
+        password2 = request.POST.get('password2')
+        
+        if username == "":
+            messages.error(request, "Username is required")
+        if email == "":
+            messages.error(request, "Email is required")
+        if phone == "":
+            messages.error(request, "phone is required")
+        if password1 == "":
+            messages.error(request, "Password is required")
+        if password2 == "":
+            messages.error(request, "Repeat Password is required")
+            return redirect('accounts:doctor-register')
+        if license_no == "":
+            messages.error(request, "License Number is required")
+            return redirect('accounts:doctor-register')
+        
+        if User.objects.filter(username=username).exists():
+            messages.error(request, "A user with the username exists")
+        if User.objects.filter(phone_no=phone).exists():
+            messages.error(request, "The Phone Number has already been taken")
+        if User.objects.filter(email=email).exists():
+            messages.error(request, "The Email has already been taken")
+            return redirect('accounts:doctor-register')
+
+        
+        if password1 != password2:
+            messages.error(request, "Passwords do not match")
+        if len(password1)<6:
+            messages.error(request,"Password is too short")
+            return redirect('accounts:doctor-register') 
+            
+        if len(license_no)<6:
+            messages.error(request,"License Number is too short")
+            return redirect('accounts:doctor-register')
+
+        if Doctor.objects.filter(license_no=license_no).exists():
+            messages.error(request, "The License Number has already been taken")
+            return redirect('accounts:doctor-register')
+                
+        else:
+            user = User.objects.create_user(username=username, 
+                                            email=email,
+                                            phone_no=phone,
+                                            is_doctor=True
+
+            )
+            user.set_password(password1)
+            user.is_active=False
+            user.save()
+
+            doctor = Doctor.objects.create(user=user,
+                                            license_no=license_no
+            )
+            doctor.save()               
+            
+            uidb64 = urlsafe_base64_encode(force_bytes(user.pk))
+            domain = get_current_site(request).domain #gives us the domain
+            link = reverse('accounts:activate', 
+                            kwargs={
+                                'uidb64':uidb64, 
+                                'token':token_gen.make_token(user)
+                                    })
+            activate_url = f"http://{domain+link}"
+            
+            mail_subject = "Activate your account"
+            mail_body = f"hi {user.username} click the link below to verify your account\n {activate_url}"
+            mail = send_mail (mail_subject, mail_body,'noreply@courses.com',[email], fail_silently=False)
+            messages.success(request, "Account created, Check your email to activate your account")
+            return redirect('accounts:login')
+            
+    return render(request, 'auth/register-doctor.html', {})
 
 def VerificationView(request,uidb64, token):
 

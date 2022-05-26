@@ -28,11 +28,13 @@ class Profile(models.Model):
 
 class Doctor(models.Model):
     user = models.OneToOneField(User, on_delete=models.DO_NOTHING)
+    license_no = models.CharField(max_length=20)
     email = models.EmailField(max_length=254, blank=True, null=True)
     phone_no = models.CharField(max_length=13, blank=True, null=True)
     address = models.CharField(max_length=254, blank=True, null=True)
     speciality = models.CharField(max_length=254, blank=True, null=True)
     profile_picture = models.ImageField(upload_to='images/doctors_profile/%Y/%m', blank=True, null=True)
+    is_verified = models.BooleanField(default=False)
 
     def __str__(self):
         return self.user.username
