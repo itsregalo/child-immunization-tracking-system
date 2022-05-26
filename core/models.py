@@ -1,58 +1,29 @@
-from tabnanny import verbose
 import uuid
 from django.db import models
 from accounts.models import Parent, Doctor
+from django.urls import reverse
 
 # Create your models here.
 
 COUNTY_CHOICES = (
-    (1, 'NAIROBI COUNTY'),
-    (2, 'KISUMU COUNTY'),
-    (3, 'NYANDARUA COUNTY'),
-    (4, 'NAKURU COUNTY'),
-    (5, 'KERICHO COUNTY'),
-    (6, 'MAKUENI COUNTY'),
-    (7, 'LAIKIPIA COUNTY'),
-    (8, 'BUSIA COUNTY'),
-    (9, 'TANA RIVER COUNTY'),
-    (10, 'WEST POKOT COUNTY'),
-    (11, 'BARINGO COUNTY'),
-    (12, 'BOMET COUNTY'),
-    (13, 'BUNGOMA COUNTY'),
-    (14, 'BUSIA COUNTY'),
-    (15, 'ELGEYO MARAKWET COUNTY'),
-    (16, 'EMBU COUNTY'),
-    (17, 'GARISSA COUNTY'),
-    (18, 'HOMA BAY COUNTY'),
-    (19, 'ISIOLO COUNTY'),
-    (20, 'KAKAMEGA COUNTY'),
-    (21, 'KERICHO COUNTY'),
-    (22, 'KIAMBU COUNTY'),
-    (23, 'KILIFI COUNTY'),
-    (24, 'LAMU COUNTY'),
-    (25, 'MACHINGA COUNTY'),
-    (26, 'MANDERA COUNTY'),
-    (27, 'MARSABIT COUNTY'),
-    (28, 'MOMBASA COUNTY'),
-    (29, 'MULANGO COUNTY'),
-    (30, 'NAKURU COUNTY'),
-    (31, 'NANDI COUNTY'),
-    (32, 'NAROK COUNTY'),
-    (33, 'NYANDARUA COUNTY'),
-    (34, 'NYERI COUNTY'),
-    (35, 'SAMBURU COUNTY'),
-    (36, 'SIAYA COUNTY'),
-    (37, 'TAITA TAVETA COUNTY'),
-    (38, 'TANA RIVER COUNTY'),
-    (39, 'THARAKA COUNTY'),
-    (40, 'VIHIGA COUNTY'),
-    (41, 'WAJIR COUNTY'),
-    (42, 'WEST POKOT COUNTY'),
-    (43, 'GOMBE COUNTY'),
-    (44, 'BARINGO COUNTY'),
-    (45, 'BOMET COUNTY'),
-    (46, 'BUNGOMA COUNTY'),
-    (47, 'BUSIA COUNTY'),
+    ('NAIROBI COUNTY', 'NAIROBI COUNTY'),
+    ('KISUMU COUNTY', 'KISUMU COUNTY'),
+    ('NYANDARUA COUNTY', 'NYANDARUA COUNTY'),
+    ('NAKURU COUNTY', 'NAKURU COUNTY'),
+    ('KERICHO COUNTY', 'KERICHO COUNTY'),
+    ('BARINGO COUNTY', 'BARINGO COUNTY'),
+    ('LAIKIPIA COUNTY', 'LAIKIPIA COUNTY'),
+    ('MAKUENI COUNTY', 'MAKUENI COUNTY'),
+    ('BOMET COUNTY', 'BOMET COUNTY'),
+    ('BUSIA COUNTY', 'BUSIA COUNTY'),
+    ('EMBU COUNTY', 'EMBU COUNTY'),
+    ('ISIOLO COUNTY', 'ISIOLO COUNTY'),
+    ('NANDI COUNTY', 'NANDI COUNTY'),
+    ('NAROK COUNTY', 'NAROK COUNTY'),
+    ('NYERI COUNTY', 'NYERI COUNTY'),
+    ('KAKAMEGA COUNTY', 'KAKAMEGA COUNTY'),
+    ('KERICHO COUNTY', 'KERICHO COUNTY'),
+    ('BARINGO COUNTY', 'BARINGO COUNTY'),
 )
 
 #vaccines given to kids
@@ -82,10 +53,15 @@ class Child(models.Model):
     weight = models.PositiveSmallIntegerField(default=0, blank=True)
     doctor = models.ForeignKey(Doctor, on_delete=models.DO_NOTHING)
     uuid = models.UUIDField(default=uuid.uuid4, editable=False, unique=True)
+    created_at = models.DateTimeField(auto_now_add=True)
 
 
     def __str__(self):
         return f"{self.first_name} {self.last_name}"
+
+    def get_absolute_url(self):
+        return reverse('core:child-profile', kwargs={'uuid': self.uuid})
+
 
     
     class Meta:

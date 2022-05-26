@@ -68,6 +68,17 @@ def doctor_dashboard(request, *args, **kwargs):
     return render(request, 'doctor_dashboard.html', context)
 
 @login_required
+def doctor_children_assigned(request, *args, **kwargs):
+    doctor = Doctor.objects.get(user=request.user)
+    doctor_children = Child.objects.filter(doctor=doctor)
+
+    context = {
+        'doctor': doctor,
+        'doctor_children': doctor_children,
+    }
+    return render(request, 'doctor_children_assigned.html', context)
+
+@login_required
 def create_child(request, *args, **kwargs):
     parent = Parent.objects.get(user=request.user)
     if request.method == 'POST':

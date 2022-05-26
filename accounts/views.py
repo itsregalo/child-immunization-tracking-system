@@ -176,7 +176,8 @@ def DoctorRegistration(request):
             user = User.objects.create_user(username=username, 
                                             email=email,
                                             phone_no=phone,
-                                            is_doctor=True
+                                            is_doctor=True,
+                                            is_parent=False
 
             )
             user.set_password(password1)

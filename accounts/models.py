@@ -27,7 +27,7 @@ class Profile(models.Model):
 
 
 class Doctor(models.Model):
-    user = models.OneToOneField(User, on_delete=models.DO_NOTHING)
+    user = models.OneToOneField(User, on_delete=models.CASCADE)
     license_no = models.CharField(max_length=20)
     email = models.EmailField(max_length=254, blank=True, null=True)
     phone_no = models.CharField(max_length=13, blank=True, null=True)
@@ -40,7 +40,7 @@ class Doctor(models.Model):
         return self.user.username
 
 class Parent(models.Model):
-    user = models.OneToOneField(User, on_delete=models.DO_NOTHING)
+    user = models.OneToOneField(User, on_delete=models.CASCADE)
     email = models.EmailField(max_length=254, blank=True, null=True)
     phone_no = models.CharField(max_length=13, blank=True, null=True)
     address = models.CharField(max_length=254, blank=True, null=True)

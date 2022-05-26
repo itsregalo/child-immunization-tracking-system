@@ -14,4 +14,5 @@ urlpatterns = [
     path('child-profile-update/<uuid>/', child_profile_update, name='child-profile-update'),
 
     path('doctor-dashboard/', doctor_dashboard, name='doctor-dashboard'),
+    path('doctor-children-assigned/', doctor_children_assigned, name='doctor-children-assigned'),
 ]
