@@ -135,14 +135,24 @@
 						
 						<li class="nav-item dropdown has-arrow logged-item">
 							<a href="#" class="dropdown-toggle nav-link" data-toggle="dropdown">
-								<span class="user-img">
-									<img class="rounded-circle" src="{% static 'assets/img/doctors/doctor-thumb-02.jpg' %}" width="31" alt="Darren Elder">
-								</span>
+								{% if request.user.is_doctor %}
+									<span class="user-img">
+										<img class="rounded-circle" src="{{ request.user.doctor.profile_picture_thumbnail.url }}" width="31" alt="Darren Elder">
+									</span>
+								{% elif request.user.is_parent %}
+									<span class="user-img">
+										<img src="{{ request.user.parent.profile_picture_thumbnail.url }}" alt="User Image" class="avatar-img rounded-circle">
+									</span>
+								{% endif %}
 							</a>
 							<div class="dropdown-menu dropdown-menu-right">
 								<div class="user-header">
 									<div class="avatar avatar-sm">
-										<img src="{% static 'assets/img/doctors/doctor-thumb-02.jpg' %}" alt="User Image" class="avatar-img rounded-circle">
+										{% if request.user.is_doctor %}
+											<img src="{{ request.user.doctor.profile_picture_thumbnail.url }}" alt="User Image" class="avatar-img rounded-circle">
+										{% elif request.user.is_parent %}
+											<img src="{{ request.user.parent.profile_picture_thumbnail.url }}" alt="User Image" class="avatar-img rounded-circle">
+										{% endif %}
 									</div>
 									<div class="user-text">
 										<h6>{{ request.user.username }}</h6>
