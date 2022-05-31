@@ -111,7 +111,7 @@ def doctor_profile_update(request, *args, **kwargs):
 
 @login_required
 def create_child(request, *args, **kwargs):
-    parent = Parent.objects.get(user=request.user)
+    doctor = Doctor.objects.get(user=request.user)
     if request.method == 'POST':
         form = ChildCreateForm(request.POST)
         if form.is_valid():
@@ -122,6 +122,7 @@ def create_child(request, *args, **kwargs):
         form = ChildCreateForm()
     context = {
         'form': form,
+        'doctor':doctor
     }
     return render(request, 'child_form.html', context)
 
