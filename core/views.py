@@ -128,8 +128,10 @@ def create_child(request, *args, **kwargs):
 @login_required
 def child_profile(request, uuid, *args, **kwargs):
     child = Child.objects.get(uuid=uuid)
+    immunizations = ChildImmunization.objects.all()
     context = {
         'child': child,
+        'immunizations':immunizations
     }
     return render(request, 'child_profile.html', context)
 
