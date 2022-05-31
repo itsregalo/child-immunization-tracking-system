@@ -3,6 +3,7 @@ from django.contrib.auth.decorators import login_required
 from .models import *
 from accounts.models import *
 from .forms import ChildCreateForm
+from accounts.forms import DoctorRegistrationForm
 from django.contrib import messages
 from django.http import HttpResponseRedirect
 from django.urls import reverse
@@ -77,6 +78,36 @@ def doctor_children_assigned(request, *args, **kwargs):
         'doctor_children': doctor_children,
     }
     return render(request, 'doctor_children_assigned.html', context)
+
+@login_required
+def doctor_appintments(request, *args, **kwargs):
+    doctor = Doctor.objects.get(user=request.user)
+    doctor_children = Child.objects.filter(doctor=doctor)
+
+    context = {
+        'doctor': doctor,
+        'doctor_children': doctor_children,
+    }
+    return render(request, 'doctor_appointments.html', context)
+
+@login_required
+def doctor_profile_update(request, *args, **kwargs):
+    doctor = Doctor.objects.get(user=request.user)
+    form = DoctorRegistrationForm(request.POST or None, request.FILES or None, instance=doctor)
+    if request.method == 'POST':
+        form = DoctorRegistrationForm(request.POST, request.FILES, instance=doctor)
+        if form.is_valid():
+            form.save()
+            messages.success(request, 'Profile updated successfully')
+            return HttpResponseRedirect(reverse('core:doctor-dashboard'))
+        messages.error(request, 'Profile update failed')
+
+    context = {
+        'doctor': doctor,
+        'form':form
+    }
+    return render(request, 'doctor_profile_update.html', context)
+    return render('doctor_profile_settings.html')
 
 @login_required
 def create_child(request, *args, **kwargs):

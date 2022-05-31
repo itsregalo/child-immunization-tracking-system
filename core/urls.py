@@ -15,4 +15,6 @@ urlpatterns = [
 
     path('doctor-dashboard/', doctor_dashboard, name='doctor-dashboard'),
     path('doctor-children-assigned/', doctor_children_assigned, name='doctor-children-assigned'),
+    path('doctor-appointments/', doctor_appintments, name='doctor-appointments'),
+    path('doctor-profile-settings/', doctor_profile_update, name='doctor-profile-update'),
 ]

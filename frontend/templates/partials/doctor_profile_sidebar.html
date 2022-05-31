@@ -25,7 +25,7 @@
                     </a>
                 </li>
                 <li>
-                    <a href="appointments.html">
+                    <a href="{% url 'core:doctor-appointments' %}">
                         <i class="fas fa-calendar-check"></i>
                         <span>Appointments</span>
                     </a>
@@ -49,12 +49,6 @@
                     </a>
                 </li>
                 <li>
-                    <a href="reviews.html">
-                        <i class="fas fa-star"></i>
-                        <span>Reviews</span>
-                    </a>
-                </li>
-                <li>
                     <a href="chat-doctor.html">
                         <i class="fas fa-comments"></i>
                         <span>Message</span>
@@ -62,7 +56,7 @@
                     </a>
                 </li>
                 <li>
-                    <a href="doctor-profile-settings.html">
+                    <a href="{% url 'core:doctor-profile-update' %}">
                         <i class="fas fa-user-cog"></i>
                         <span>Profile Settings</span>
                     </a>

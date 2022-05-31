@@ -12,6 +12,12 @@ from imagekit.processors import ResizeToFill
 User = settings.AUTH_USER_MODEL
 # Create your models here.
 
+GENDER_CHOICES = (
+    ('Male', 'Male'),
+    ('Female','Female'),
+    ('Other', 'Other')
+)
+
 class User(AbstractUser):
     is_superuser = models.BooleanField(default=False)
     is_admin = models.BooleanField(default=False)
@@ -39,6 +45,7 @@ class Doctor(models.Model):
     phone_no = models.CharField(max_length=13, blank=True, null=True)
     address = models.CharField(max_length=254, blank=True, null=True)
     speciality = models.CharField(max_length=254, blank=True, null=True)
+    gender = models.CharField(choices=GENDER_CHOICES, max_length=20)
     profile_picture = models.ImageField(upload_to='images/doctors_profile/%Y/%m', 
                                         default='images/default-avatar.jpg',
                                         blank=True, null=True)
@@ -47,6 +54,7 @@ class Doctor(models.Model):
                                             format='JPEG',
                                             options={'quality': 60}
                                                 )
+    about = models.TextField(blank=True, null=True)
     is_verified = models.BooleanField(default=False)
 
     def __str__(self):
