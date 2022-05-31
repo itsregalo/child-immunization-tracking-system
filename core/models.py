@@ -36,6 +36,12 @@ VACCINE_CHOICES = (
     (6, 'MEASLES')
 )
 
+GENDER_CHOICES = (
+    (1, 'Male'),
+    (2, 'Female'),
+    (3, 'Other'),
+)
+
 
 
 class Child(models.Model):
@@ -43,6 +49,7 @@ class Child(models.Model):
     birth_no = models.CharField(max_length=50)
     first_name = models.CharField(max_length=254)
     last_name = models.CharField(max_length=254)
+    gender = models.CharField(choices=GENDER_CHOICES, max_length=13)
     mothers_name = models.CharField(max_length=254, blank=True, null=True)
     fathers_name = models.CharField(max_length=254, blank=True, null=True)
     date_of_registration = models.DateTimeField()
