@@ -50,7 +50,7 @@ GENDER_CHOICES = (
 
 class Child(models.Model):
     parent = models.ForeignKey(Parent, on_delete=models.CASCADE)
-    birth_no = models.CharField(max_length=50)
+    birth_no = models.CharField(max_length=50, unique=True)
     first_name = models.CharField(max_length=254)
     last_name = models.CharField(max_length=254)
     gender = models.CharField(choices=GENDER_CHOICES, max_length=13)
@@ -111,7 +111,7 @@ class ChildImmunization(models.Model):
     weight = models.PositiveSmallIntegerField(default=0, blank=True)
     height = models.PositiveSmallIntegerField(default=0, blank=True)
     comment = models.TextField(max_length=254, blank=True, null=True)
-    date_given = models.DateTimeField()
+    date_given = models.DateTimeField(blank=True, null=True)
     doctor = models.ForeignKey(Doctor, on_delete=models.DO_NOTHING)
     is_vaccinated = models.BooleanField(default=False)
     uuid = models.UUIDField(default=uuid.uuid4, editable=False, unique=True)

@@ -67,30 +67,18 @@
 							<!-- Last Booking -->
 							<div class="card">
 								<div class="card-header">
-									<h4 class="card-title">Last Booking</h4>
+									<h4 class="card-title">Parent</h4>
 								</div>
 								<ul class="list-group list-group-flush">
 									<li class="list-group-item">
 										<div class="media align-items-center">
 											<div class="mr-3">
-												<img alt="Image placeholder" src="{% static 'assets/img/doctors/doctor-thumb-02.jpg' %}" class="avatar  rounded-circle">
+												<img alt="Image placeholder" src="{{ child.parent.profile_picture_thumbnail.url }}" class="avatar  rounded-circle">
 											</div>
 											<div class="media-body">
-												<h5 class="d-block mb-0">Dr. Darren Elder </h5>
-												<span class="d-block text-sm text-muted">Dentist</span>
+												<h5 class="d-block mb-0">{{ child.parent.user.username }} </h5>
+												<span class="d-block text-sm text-muted">{{ child.parent.user.phone_no }}</span>
 												<span class="d-block text-sm text-muted">14 Nov 2019 5.00 PM</span>
-											</div>
-										</div>
-									</li>
-									<li class="list-group-item">
-										<div class="media align-items-center">
-											<div class="mr-3">
-												<img alt="Image placeholder" src="{% static 'assets/img/doctors/doctor-thumb-02.jpg' %}" class="avatar  rounded-circle">
-											</div>
-											<div class="media-body">
-												<h5 class="d-block mb-0">Dr. Darren Elder </h5>
-												<span class="d-block text-sm text-muted">Dentist</span>
-												<span class="d-block text-sm text-muted">12 Nov 2019 11.00 AM</span>
 											</div>
 										</div>
 									</li>
@@ -131,27 +119,29 @@
 															<thead>
 																<tr>
 																	<th>Vaccine</th>
-																	<th>Appt Date</th>
-																	<th>Booking Date</th>
-																	<th>Amount</th>
-																	<th>Follow Up</th>
+																	<th>Time Given</th>
+																	<th>Appointment Date</th>
 																	<th>Status</th>
+																	<th>Amount</th>
+																	
 																	<th></th>
 																</tr>
 															</thead>
 															<tbody>
+																{% for immunization in child_immunizations %}
+
 																<tr>
 																	<td>
 																		<h2 class="table-avatar">
 																			
-																			<a href="doctor-profile.html">Dr. Darren Elder <span>Dental</span></a>
+																			<a href="">{{ immunization.vaccine.name }} <span>Dental</span></a>
 																		</h2>
 																	</td>
-																	<td>14 Nov 2019 <span class="d-block text-info">10.00 AM</span></td>
+																	<td>{{ immunization.vaccine.time_given }} </td>
 																	<td>12 Nov 2019</td>
-																	<td>$160</td>
-																	<td>16 Nov 2019</td>
 																	<td><span class="badge badge-pill bg-success-light">Confirm</span></td>
+																	<td>$160</td>
+																	
 																	<td class="text-right">
 																		<div class="table-action">
 																			<a href="javascript:void(0);" class="btn btn-sm bg-success-light">
@@ -160,6 +150,8 @@
 																		</div>
 																	</td>
 																</tr>
+
+																{% endfor %}
 																
 															</tbody>
 														</table>

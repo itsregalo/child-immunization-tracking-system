@@ -127,8 +127,17 @@ def create_child(request, *args, **kwargs):
             child.save()
 
             # send notification via sms to parent
-            sms_content = "Your child {} has been registered successfully, wait for notifications on vaccination".format(child.first_name)
-            response = sms_provider.send(child.parent.phone_no, sms_content)
+            # sms_content = "Your child {} has been registered successfully, wait for notifications on vaccination".format(child.first_name)
+            # response = sms_provider.send(child.parent.phone_no, sms_content)
+
+            vaccines = Vaccines.objects.all()
+            for vaccine in vaccines:
+                ChildImmunization.objects.create(
+                    child=child,
+                    vaccine=vaccine,
+                    doctor=doctor
+                    )
+            
           
             messages.success(request, 'Child created successfully')
             return HttpResponseRedirect(reverse('core:doctor-dashboard'))
@@ -141,10 +150,10 @@ def create_child(request, *args, **kwargs):
 @login_required
 def child_profile(request, uuid, *args, **kwargs):
     child = Child.objects.get(uuid=uuid)
-    immunizations = ChildImmunization.objects.all()
+    immunizations = ChildImmunization.objects.filter(child=child)
     context = {
         'child': child,
-        'immunizations':immunizations
+        'child_immunizations':immunizations
     }
     return render(request, 'child_profile.html', context)
 

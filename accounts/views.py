@@ -151,10 +151,10 @@ def DoctorRegistration(request):
             messages.error(request, "Password is required")
         if password2 == "":
             messages.error(request, "Repeat Password is required")
-            return redirect('accounts:doctor-register')
+            return redirect('accounts:register-doctor')
         if license_no == "":
             messages.error(request, "License Number is required")
-            return redirect('accounts:doctor-register')
+            return redirect('accounts:register-doctor')
         
         if User.objects.filter(username=username).exists():
             messages.error(request, "A user with the username exists")
@@ -162,22 +162,22 @@ def DoctorRegistration(request):
             messages.error(request, "The Phone Number has already been taken")
         if User.objects.filter(email=email).exists():
             messages.error(request, "The Email has already been taken")
-            return redirect('accounts:doctor-register')
+            return redirect('accounts:register-doctor')
 
         
         if password1 != password2:
             messages.error(request, "Passwords do not match")
         if len(password1)<6:
             messages.error(request,"Password is too short")
-            return redirect('accounts:doctor-register') 
+            return redirect('accounts:register-doctor') 
             
         if len(license_no)<6:
             messages.error(request,"License Number is too short")
-            return redirect('accounts:doctor-register')
+            return redirect('accounts:register-doctor')
 
         if Doctor.objects.filter(license_no=license_no).exists():
             messages.error(request, "The License Number has already been taken")
-            return redirect('accounts:doctor-register')
+            return redirect('accounts:register-doctor')
                 
         else:
             user = User.objects.create_user(username=username, 

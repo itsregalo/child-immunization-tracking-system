@@ -62,7 +62,7 @@ class Doctor(models.Model):
 
 class Parent(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
-    parent_id = models.CharField(max_length=20, blank=True)
+    # parent_id = models.CharField(max_length=20, blank=True)
     email = models.EmailField(max_length=254, blank=True, null=True)
     phone_no = models.CharField(max_length=13, blank=True, null=True)
     address = models.CharField(max_length=254, blank=True, null=True)
@@ -78,7 +78,7 @@ class Parent(models.Model):
     def __str__(self):
         return self.user.username
 
-    def save(self, *args, **kwargs):
-        if not self.parent_id:
-            self.parent_id = 'P{:05d}'.format(self.id)
-        super().save(*args, **kwargs)
+    # def save(self, *args, **kwargs):
+    #     if not self.parent_id:
+    #         self.parent_id = self.id
+    #     super().save(*args, **kwargs)
