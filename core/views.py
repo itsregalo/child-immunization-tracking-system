@@ -117,13 +117,13 @@ def create_child(request, *args, **kwargs):
         if form.is_valid():
             form.save()
             messages.success(request, 'Child created successfully')
-            return HttpResponseRedirect(reverse('core:parent-dashboard'))
+            return HttpResponseRedirect(reverse('core:doctor-dashboard'))
     else:
         form = ChildCreateForm()
     context = {
         'form': form,
     }
-    return render(request, 'create_child.html', context)
+    return render(request, 'child_form.html', context)
 
 @login_required
 def child_profile(request, uuid, *args, **kwargs):
@@ -134,6 +134,7 @@ def child_profile(request, uuid, *args, **kwargs):
         'immunizations':immunizations
     }
     return render(request, 'child_profile.html', context)
+
 
 @login_required
 def child_profile_update(request, uuid, *args, **kwargs):
