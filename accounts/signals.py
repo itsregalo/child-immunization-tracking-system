@@ -16,5 +16,3 @@ def save_profile(sender, instance, **kwargs):
     instance.profile.save()
     if instance.is_parent:
         instance.parent.save()
-    if instance.is_ministry:
-        instance.moh.save()
