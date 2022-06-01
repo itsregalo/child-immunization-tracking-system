@@ -107,19 +107,19 @@ def doctor_profile_update(request, *args, **kwargs):
         'form':form
     }
     return render(request, 'doctor_profile_update.html', context)
-    return render('doctor_profile_settings.html')
 
 @login_required
 def create_child(request, *args, **kwargs):
     doctor = Doctor.objects.get(user=request.user)
+    form = ChildCreateForm()
     if request.method == 'POST':
         form = ChildCreateForm(request.POST)
         if form.is_valid():
-            form.save()
+            child = form.save(commit=False)
+            child.doctor = doctor
+            child.save()
             messages.success(request, 'Child created successfully')
             return HttpResponseRedirect(reverse('core:doctor-dashboard'))
-    else:
-        form = ChildCreateForm()
     context = {
         'form': form,
         'doctor':doctor

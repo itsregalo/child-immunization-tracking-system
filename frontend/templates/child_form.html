@@ -25,7 +25,7 @@
 						<div class="col-md-7 col-lg-8 col-xl-9">
 						
 							<!-- Basic Information -->
-							<form action="" method="POST">
+							<form action="{% url 'core:create-child' %}" method="POST">{% csrf_token %}
 
 								<div class="card">
 									<div class="card-body">
@@ -35,59 +35,58 @@
 											<div class="col-md-6">
 												<div class="form-group">
 													<label>First Name <span class="text-danger">*</span></label>
-													<input type="text" class="form-control">
+													{{ form.first_name }}
+													<small><span class="text-danger">{{ form.first_name.errors }}</span></small>
 												</div>
 											</div>
 											<div class="col-md-6">
 												<div class="form-group">
 													<label>Last Name <span class="text-danger">*</span></label>
-													<input type="text" class="form-control">
+													{{ form.last_name }}
+													<small><span class="text-danger">{{ form.last_name.errors }}</span></small>
+
 												</div>
 											</div>
 											<div class="col-md-6">
 												<div class="form-group">
 													<label>Birth Number</label>
-													<input type="text" class="form-control">
+													{{ form.birth_no }}
+													<small><span class="text-danger">{{ form.birth_no.errors }}</span></small>
 												</div>
 											</div>
 											<div class="col-md-6">
 												<div class="form-group">
 													<label>Gender</label>
-													<select class="form-control select">
-														<option>Select</option>
-														<option>Male</option>
-														<option>Female</option>
-													</select>
+													{{ form.gender }}
+													<small><span class="text-danger">{{ form.gender.errors }}</span></small>
 												</div>
 											</div>
 											<div class="col-md-6">
 												<div class="form-group mb-0">
 													<label>Date of Birth</label>
-													<input type="text" class="form-control">
+													{{ form.date_of_birth }}
+													<small><span class="text-danger">{{ form.date_of_birth.errors }}</span></small>
 												</div>
 											</div>
 											<div class="col-md-6">
 												<div class="form-group mb-0">
-													<label>Birth No</label>
-													<input type="text" class="form-control">
+													<label>Parent</label>
+													{{ form.parent }}
+													<small><span class="text-danger">{{ form.parent.errors }}</span></small>
 												</div>
 											</div>
 											<div class="col-md-6">
 												<div class="form-group mb-0">
 													<label>Mother's Name</label>
-													<input type="text" class="form-control">
+													{{ form.mothers_name }}
+													<small><span class="text-danger">{{ form.mothers_name.errors }}</span></small>
 												</div>
 											</div>
 											<div class="col-md-6">
 												<div class="form-group mb-0">
 													<label>Father's Name</label>
-													<input type="text" class="form-control">
-												</div>
-											</div>
-											<div class="col-md-6">
-												<div class="form-group mb-0">
-													<label>Date of Birth</label>
-													<input type="date" class="form-control">
+													{{ form.fathers_name }}
+													<small><span class="text-danger">{{ form.fathers_name.errors }}</span></small>
 												</div>
 											</div>
 										</div>
@@ -104,31 +103,36 @@
 											<div class="col-md-6">
 												<div class="form-group mb-0">
 													<label>Registration Date</label>
-													<input type="date" class="form-control">
+													{{ form.date_of_registration }}
+													<small><span class="text-danger">{{ form.date_of_registration.errors }}</span></small>
 												</div>
 											</div>
 											<div class="col-md-6">
 												<div class="form-group mb-0">
 													<label>Birth County</label>
-													<input type="text" class="form-control">
+													{{ form.birth_county }}
+													<small><span class="text-danger">{{ form.birth_county.errors }}</span></small>
 												</div>
 											</div>
 											<div class="col-md-6">
 												<div class="form-group mb-0">
 													<label>Resident County</label>
-													<input type="text" class="form-control">
+													{{ form.resident_county }}
+													<small><span class="text-danger">{{ form.resident_county.errors }}</span></small>
 												</div>
 											</div>
 											<div class="col-md-6">
 												<div class="form-group mb-0">
 													<label>Height</label>
-													<input type="text" class="form-control">
+													{{ form.height }}
+													<small><span class="text-danger">{{ form.height.errors }}</span></small>
 												</div>
 											</div>
 											<div class="col-md-6">
 												<div class="form-group mb-0">
 													<label>Weight</label>
-													<input type="text" class="form-control">
+													{{ form.weight }}
+													<small><span class="text-danger">{{ form.weight.errors }}</span></small>
 												</div>
 											</div>
 										</div>

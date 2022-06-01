@@ -1,7 +1,11 @@
+from email.policy import default
 import uuid
 from django.db import models
 from accounts.models import Parent, Doctor
 from django.urls import reverse
+
+from imagekit.models import ImageSpecField
+from imagekit.processors import ResizeToFill
 
 # Create your models here.
 
@@ -28,18 +32,18 @@ COUNTY_CHOICES = (
 
 #vaccines given to kids
 VACCINE_CHOICES = (
-    (1, 'BCG'),
-    (2, 'OPV'),
-    (3, 'DPT'),
-    (4, 'HEPATITIS B'),
-    (5, 'HEPATITIS A'),
-    (6, 'MEASLES')
+    ('BCG', 'BCG'),
+    ('OPV', 'OPV'),
+    ('DPT', 'DPT'),
+    ('HPB', 'HEPATITIS B'),
+    ('HPA', 'HEPATITIS A'),
+    ('MEA', 'MEASLES')
 )
 
 GENDER_CHOICES = (
-    (1, 'Male'),
-    (2, 'Female'),
-    (3, 'Other'),
+    ('Male', 'Male'),
+    ('Female', 'Female'),
+    ('Other', 'Other'),
 )
 
 
@@ -61,6 +65,14 @@ class Child(models.Model):
     doctor = models.ForeignKey(Doctor, on_delete=models.DO_NOTHING)
     uuid = models.UUIDField(default=uuid.uuid4, editable=False, unique=True)
     created_at = models.DateTimeField(auto_now_add=True)
+    profile_picture = models.ImageField(upload_to='profile_pictures/children/%Y/%m/%d',
+                                        blank=True, null=True, 
+                                        default='images/default-avatar.jpg')
+    profile_picture_thumbnail = ImageSpecField(source='profile_picture',
+                                            processors=[ResizeToFill(100, 100)],
+                                            format='JPEG',
+                                            options={'quality': 60}
+
 
 
     def __str__(self):

@@ -41,7 +41,7 @@
 									<div class="pro-widget-content">
 										<div class="profile-info-widget">
 											<a href="#" class="booking-doc-img">
-												<img src="{% static 'assets/img/patients/patient.jpg' %}" alt="User Image">
+												<img src="{{ child.profile_picture_thumbnail.url }}" alt="User Image">
 											</a>
 											<div class="profile-det-info">
 												<h3>{{ child.first_name }} {{ child.last_name }}</h3>
