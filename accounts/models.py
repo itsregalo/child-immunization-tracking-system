@@ -82,3 +82,13 @@ class Parent(models.Model):
     #     if not self.parent_id:
     #         self.parent_id = self.id
     #     super().save(*args, **kwargs)
+
+class MOH(models.Model):
+    user = models.OneToOneField(User, on_delete=models.CASCADE)
+    employee_no = models.CharField(max_length=20)
+    email = models.EmailField(max_length=254, blank=True, null=True)
+    phone_no = models.CharField(max_length=13, blank=True, null=True)
+    address = models.CharField(max_length=254, blank=True, null=True)
+
+    def __str__(self):
+        return self.user.username
