@@ -11,9 +11,10 @@ from decouple import config
 
 # Create your views here.
 import africastalking
-sms_provider = africastalking.SMS
 
-username = "vax"
+sms = africastalking.SMS
+
+username="vax"
 api_key = config('api_key')
 africastalking.initialize(username, api_key)
 
@@ -165,7 +166,14 @@ def child_immunization_detail(request, uuid, *args, **kwargs):
     if request.method == 'POST':
         form = ChildImmunizationForm(request.POST, instance=immunization)
         if form.is_valid():
-            form.save()
+            immunization_form = form.save(commit=False)
+            # check if immunization is_vaccinated is True
+            if immunization_form.is_vaccinated:
+                # send notification via sms to parent
+                sms_content = f"Your child {child} has been vaccinated { immunization.vaccine.name } successfully"
+                response = sms.send(f'{child.parent.phone_no}', sms_content)
+                print(response)
+            immunization_form.save()
             messages.success(request, 'Immunization updated successfully')
             return HttpResponseRedirect(reverse('core:child-profile', kwargs={'uuid':child.uuid}))
         messages.error(request, 'Immunization update failed')
@@ -203,7 +211,8 @@ def send_vaccine_notifications(request, *args, **kwargs):
         child_id = request.POST.get('child_id')
         child = Child.objects.get(id=child_id)
         sms_content = f"This is to reminde you of your next immunization appointment for {child.first_name} is scheduled at (hospital name) on (due_date)We look forward to seeing you then"
-        response = sms_provider.send(child.parent.phone_no, sms_content)
+        response = sms.send(f"+{child.parent.phone_no}", sms_content)
+        print(response)
         messages.success(request, 'Notification sent successfully')
         return HttpResponseRedirect(reverse('core:doctor-dashboard'))
     context = {
