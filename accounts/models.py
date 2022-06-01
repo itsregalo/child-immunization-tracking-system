@@ -90,5 +90,8 @@ class MOH(models.Model):
     phone_no = models.CharField(max_length=13, blank=True, null=True)
     address = models.CharField(max_length=254, blank=True, null=True)
 
+    class Meta:
+        verbose_name_plural = 'MOH'
+
     def __str__(self):
         return self.user.username
