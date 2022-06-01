@@ -110,8 +110,8 @@ class Vaccines(models.Model):
 class ChildImmunization(models.Model):
     child = models.ForeignKey(Child, on_delete=models.CASCADE)
     vaccine = models.ForeignKey(Vaccines, on_delete=models.CASCADE)
-    weight = models.PositiveSmallIntegerField(default=0, blank=True)
-    height = models.PositiveSmallIntegerField(default=0, blank=True)
+    weight = models.DecimalField(max_digits=4, decimal_places=2, blank=True, null=True)
+    height = models.DecimalField(max_digits=4, decimal_places=2, blank=True, null=True)
     comment = models.TextField(max_length=254, blank=True, null=True)
     date_given = models.DateTimeField(blank=True, null=True)
     doctor = models.ForeignKey(Doctor, on_delete=models.DO_NOTHING)

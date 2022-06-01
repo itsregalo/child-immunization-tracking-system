@@ -2,7 +2,7 @@ from django.shortcuts import render, get_object_or_404
 from django.contrib.auth.decorators import login_required
 from .models import *
 from accounts.models import *
-from .forms import ChildCreateForm
+from .forms import ChildCreateForm, ChildImmunizationForm
 from accounts.forms import DoctorRegistrationForm
 from django.contrib import messages
 from django.http import HttpResponseRedirect
@@ -161,9 +161,20 @@ def child_profile(request, uuid, *args, **kwargs):
 def child_immunization_detail(request, uuid, *args, **kwargs):
     immunization = get_object_or_404(ChildImmunization, uuid=uuid)
     child = immunization.child
+    form = ChildImmunizationForm(request.POST or None, instance=immunization)
+    if request.method == 'POST':
+        form = ChildImmunizationForm(request.POST, instance=immunization)
+        if form.is_valid():
+            form.save()
+            messages.success(request, 'Immunization updated successfully')
+            return HttpResponseRedirect(reverse('core:child-profile', kwargs={'uuid':child.uuid}))
+        messages.error(request, 'Immunization update failed')
+
     context = {
         'immunization':immunization,
-        'child':child
+        'child':child,
+        'doctor':immunization.doctor,
+        'form':form
     }
     return render(request, 'child_immunization_detail.html', context)
 

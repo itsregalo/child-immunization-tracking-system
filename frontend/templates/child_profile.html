@@ -122,7 +122,6 @@
 																	<th>Time Given</th>
 																	<th>Appointment Date</th>
 																	<th>Status</th>
-																	<th>Amount</th>
 																	
 																	<th></th>
 																</tr>
@@ -139,12 +138,16 @@
 																	</td>
 																	<td>{{ immunization.vaccine.time_given }} </td>
 																	<td>12 Nov 2019</td>
-																	<td><span class="badge badge-pill bg-success-light">Confirm</span></td>
-																	<td>$160</td>
+																	
+																	{% if immunization.is_vaccinated %}
+																		<td><span class="badge badge-pill bg-success-light">Received</span></td>
+																	{% else %}
+																		<td><span class="badge badge-pill bg-danger-light">Not yet</span></td>
+																	{% endif %}
 																	
 																	<td class="text-right">
 																		<div class="table-action">
-																			<a href="javascript:void(0);" class="btn btn-sm bg-success-light">
+																			<a href="{{ immunization.get_absolute_url }}" class="btn btn-sm bg-success-light">
 																				<i class="far fa-edit"></i> Edit
 																			</a>
 																		</div>
