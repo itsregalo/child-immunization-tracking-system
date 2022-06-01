@@ -72,6 +72,7 @@ class Child(models.Model):
                                             processors=[ResizeToFill(100, 100)],
                                             format='JPEG',
                                             options={'quality': 60}
+                                            )   
 
 
 

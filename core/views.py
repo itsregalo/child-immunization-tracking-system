@@ -7,8 +7,15 @@ from accounts.forms import DoctorRegistrationForm
 from django.contrib import messages
 from django.http import HttpResponseRedirect
 from django.urls import reverse
+from decouple import config
 
 # Create your views here.
+import africastalking
+sms_provider = africastalking.SMS
+
+username = "vax"
+api_key = config('api_key')
+africastalking.initialize(username, api_key)
 
 
 def IndexView(request, *args, **kwargs):
@@ -118,6 +125,11 @@ def create_child(request, *args, **kwargs):
             child = form.save(commit=False)
             child.doctor = doctor
             child.save()
+
+            # send notification via sms to parent
+            sms_content = "Your child {} has been registered successfully, wait for notifications on vaccination".format(child.first_name)
+            response = sms_provider.send(child.parent.phone_no, sms_content)
+          
             messages.success(request, 'Child created successfully')
             return HttpResponseRedirect(reverse('core:doctor-dashboard'))
     context = {
@@ -152,3 +164,19 @@ def child_profile_update(request, uuid, *args, **kwargs):
         'form': form,
     }
     return render(request, 'child_profile_update.html', context)
+
+@login_required
+def send_vaccine_notifications(request, *args, **kwargs):
+    doctor = Doctor.objects.get(user=request.user)
+
+    if request.method == 'POST':
+        child_id = request.POST.get('child_id')
+        child = Child.objects.get(id=child_id)
+        sms_content = f"This is to reminde you of your next immunization appointment for {child.first_name} is scheduled at (hospital name) on (due_date)We look forward to seeing you then"
+        response = sms_provider.send(child.parent.phone_no, sms_content)
+        messages.success(request, 'Notification sent successfully')
+        return HttpResponseRedirect(reverse('core:doctor-dashboard'))
+    context = {
+        'doctor': doctor,
+    }
+    return render(request, 'send_vaccine_notifications.html', context)

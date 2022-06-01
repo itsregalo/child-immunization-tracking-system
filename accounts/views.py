@@ -12,6 +12,7 @@ from accounts.models import Doctor
 from .utils import token_gen
 from django.contrib.auth.tokens import PasswordResetTokenGenerator
 from django.contrib.auth import get_user_model
+from decouple import config
 
 User = get_user_model()
 
@@ -19,6 +20,12 @@ User = get_user_model()
 is told a function is complete while still loading
 """
 import threading
+
+import africastalking
+
+username = "vax"
+api_key = config('api_key')
+africastalking.initialize(username, api_key)
 
 
 
