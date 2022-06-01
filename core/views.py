@@ -12,11 +12,11 @@ from decouple import config
 # Create your views here.
 import africastalking
 
-sms = africastalking.SMS
-
-username="vax"
-api_key = config('api_key')
+username = "vax"
+api_key = config('API_KEY')
 africastalking.initialize(username, api_key)
+
+sms = africastalking.SMS
 
 
 def IndexView(request, *args, **kwargs):
@@ -169,9 +169,11 @@ def child_immunization_detail(request, uuid, *args, **kwargs):
             immunization_form = form.save(commit=False)
             # check if immunization is_vaccinated is True
             if immunization_form.is_vaccinated:
+                print(child.parent.phone_no)
                 # send notification via sms to parent
                 sms_content = f"Your child {child} has been vaccinated { immunization.vaccine.name } successfully"
-                response = sms.send(f'{child.parent.phone_no}', sms_content)
+                response = sms.send(sms_content, [f'+{child.parent.phone_no}'])
+                
                 print(response)
             immunization_form.save()
             messages.success(request, 'Immunization updated successfully')

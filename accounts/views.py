@@ -24,7 +24,7 @@ import threading
 import africastalking
 
 username = "vax"
-api_key = config('api_key')
+api_key = config('API_KEY')
 africastalking.initialize(username, api_key)
 
 

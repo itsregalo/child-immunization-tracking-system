@@ -16,6 +16,7 @@ class ChildCreateForm(forms.ModelForm):
             'date_of_birth': forms.DateInput(attrs={'class': 'form-control', 'type': 'date'}),
             'birth_county': forms.Select(attrs={'class': 'form-control'}),
             'resident_county': forms.Select(attrs={'class': 'form-control'}),
+            'birth_facility': forms.TextInput(attrs={'class': 'form-control'}),
             'height': forms.NumberInput(attrs={'class': 'form-control'}),
             'weight': forms.NumberInput(attrs={'class': 'form-control'}),
             'gender': forms.Select(attrs={'class':'form-control select'}),

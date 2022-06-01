@@ -60,6 +60,7 @@ class Child(models.Model):
     fathers_name = models.CharField(max_length=254, blank=True, null=True)
     date_of_registration = models.DateTimeField()
     date_of_birth = models.DateTimeField()
+    birth_facility = models.CharField(max_length=254, blank=True, null=True)
     birth_county = models.CharField(max_length=254, choices=COUNTY_CHOICES)
     resident_county = models.CharField(choices=COUNTY_CHOICES, max_length=50, blank=True, null=True)
     height = models.PositiveSmallIntegerField(default=0, blank=True, null=True)

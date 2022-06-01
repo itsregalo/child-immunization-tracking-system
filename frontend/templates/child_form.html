@@ -109,6 +109,13 @@
 											</div>
 											<div class="col-md-6">
 												<div class="form-group mb-0">
+													<label>Birth Facility</label>
+													{{ form.birth_facility}}
+													<small><span class="text-danger">{{ form.date_of_registration.errors }}</span></small>
+												</div>
+											</div>
+											<div class="col-md-6">
+												<div class="form-group mb-0">
 													<label>Birth County</label>
 													{{ form.birth_county }}
 													<small><span class="text-danger">{{ form.birth_county.errors }}</span></small>
