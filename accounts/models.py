@@ -8,6 +8,27 @@ from django.conf import settings
 from imagekit.models import ImageSpecField
 from imagekit.processors import ResizeToFill
 
+COUNTY_CHOICES = (
+    ('NAIROBI COUNTY', 'NAIROBI COUNTY'),
+    ('KISUMU COUNTY', 'KISUMU COUNTY'),
+    ('NYANDARUA COUNTY', 'NYANDARUA COUNTY'),
+    ('NAKURU COUNTY', 'NAKURU COUNTY'),
+    ('KERICHO COUNTY', 'KERICHO COUNTY'),
+    ('BARINGO COUNTY', 'BARINGO COUNTY'),
+    ('LAIKIPIA COUNTY', 'LAIKIPIA COUNTY'),
+    ('MAKUENI COUNTY', 'MAKUENI COUNTY'),
+    ('BOMET COUNTY', 'BOMET COUNTY'),
+    ('BUSIA COUNTY', 'BUSIA COUNTY'),
+    ('EMBU COUNTY', 'EMBU COUNTY'),
+    ('ISIOLO COUNTY', 'ISIOLO COUNTY'),
+    ('NANDI COUNTY', 'NANDI COUNTY'),
+    ('NAROK COUNTY', 'NAROK COUNTY'),
+    ('NYERI COUNTY', 'NYERI COUNTY'),
+    ('KAKAMEGA COUNTY', 'KAKAMEGA COUNTY'),
+    ('KERICHO COUNTY', 'KERICHO COUNTY'),
+    ('BARINGO COUNTY', 'BARINGO COUNTY'),
+)
+
 
 User = settings.AUTH_USER_MODEL
 # Create your models here.
@@ -17,6 +38,15 @@ GENDER_CHOICES = (
     ('Female','Female'),
     ('Other', 'Other')
 )
+
+class Hospital(models.Model):
+    name = models.CharField(max_length=254)
+    license_no = models.CharField(max_length=20, blank=True, null=True)
+    county = models.CharField(choices=COUNTY_CHOICES, max_length=254)
+    date_created = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return f'{self.name} -> { self.county }'
 
 class User(AbstractUser):
     is_superuser = models.BooleanField(default=False)
@@ -40,6 +70,7 @@ class Profile(models.Model):
 
 class Doctor(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
+    hospital = models.ForeignKey(Hospital, on_delete=models.CASCADE, blank=True, null=True)
     license_no = models.CharField(max_length=20)
     email = models.EmailField(max_length=254, blank=True, null=True)
     phone_no = models.CharField(max_length=13, blank=True, null=True)

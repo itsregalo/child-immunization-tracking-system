@@ -1,5 +1,5 @@
 from django import forms
-from .models import Child
+from .models import Child, ChildImmunization
 
 class ChildCreateForm(forms.ModelForm):
     class Meta:
@@ -20,4 +20,17 @@ class ChildCreateForm(forms.ModelForm):
             'weight': forms.NumberInput(attrs={'class': 'form-control'}),
             'gender': forms.Select(attrs={'class':'form-control select'}),
             'parent': forms.Select(attrs={'class':'form-control select'}),
+        }
+
+class ChildImmunizationForm(forms.ModelForm):
+    class Meta:
+        model = ChildImmunization
+        exclude = ['child', 'vaccine','doctor','uuid']
+
+        widgets = {
+            'weight': forms.NumberInput(attrs={'class': 'form-control'}),
+            'height': forms.NumberInput(attrs={'class': 'form-control'}),
+            'comment': forms.Textarea(attrs={'class': 'form-control'}),
+            'date_given': forms.DateInput(attrs={'class': 'form-control', 'type': 'date'}),
+            'is_vaccinated': forms.CheckboxInput(attrs={'class': 'form-control'}),
         }

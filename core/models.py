@@ -48,6 +48,8 @@ GENDER_CHOICES = (
 
 
 
+
+
 class Child(models.Model):
     parent = models.ForeignKey(Parent, on_delete=models.CASCADE)
     birth_no = models.CharField(max_length=50, unique=True)
@@ -116,13 +118,17 @@ class ChildImmunization(models.Model):
     is_vaccinated = models.BooleanField(default=False)
     uuid = models.UUIDField(default=uuid.uuid4, editable=False, unique=True)
 
-    def __str__(self):
-        return f"{self.child.first_name} {self.child.last_name} {self.vaccine.name}"
-
     class Meta:
         verbose_name = 'Child Immunization'
         verbose_name_plural = 'Child Immunizations'
         db_table = 'child_immunization'
+
+    def get_absolute_url(self):
+        return reverse("core:child-immunization-detail", kwargs={"uuid": self.uuid})
+
+    def __str__(self):
+        return f"{self.child.first_name} {self.child.last_name} {self.vaccine.name}"
+
 
 
     

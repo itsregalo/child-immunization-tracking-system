@@ -1,4 +1,4 @@
-from django.shortcuts import render
+from django.shortcuts import render, get_object_or_404
 from django.contrib.auth.decorators import login_required
 from .models import *
 from accounts.models import *
@@ -156,6 +156,16 @@ def child_profile(request, uuid, *args, **kwargs):
         'child_immunizations':immunizations
     }
     return render(request, 'child_profile.html', context)
+
+@login_required
+def child_immunization_detail(request, uuid, *args, **kwargs):
+    immunization = get_object_or_404(ChildImmunization, uuid=uuid)
+    child = immunization.child
+    context = {
+        'immunization':immunization,
+        'child':child
+    }
+    return render(request, 'child_immunization_detail.html', context)
 
 
 @login_required
