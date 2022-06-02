@@ -107,15 +107,17 @@
 								
 								{% endif %}
 							</li>
-							{% if request.user.is_authenticated %}
+							{% if request.user.is_authenticated %}	
 
 								{% if request.user.is_admin %}
 									<li>
-										<a href="admin/index.html" target="_blank">Admin</a>
+										<a href="{% url 'custom-admin:index' %}" target="_blank">Admin</a>
 									</li>
 								{% endif %}
 							
 							{% endif %}
+
+
 							<li class="login-link">
 								<a href="{% url 'accounts:login' %}">Login / Signup</a>
 							</li>

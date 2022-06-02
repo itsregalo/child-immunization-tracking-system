@@ -1,5 +1,6 @@
 from distutils.command.upload import upload
 from email.policy import default
+from secrets import choice
 from tokenize import blank_re
 from django.db import models
 from django.contrib.auth.models import AbstractUser
@@ -39,6 +40,12 @@ GENDER_CHOICES = (
     ('Other', 'Other')
 )
 
+DR_SALUTATIONS = (
+    ('Dr', 'Dr'),
+    ('RN', 'RN')
+)
+
+
 class Hospital(models.Model):
     name = models.CharField(max_length=254)
     license_no = models.CharField(max_length=20, blank=True, null=True)
@@ -70,6 +77,7 @@ class Profile(models.Model):
 
 class Doctor(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
+    salutation = models.CharField(choices=DR_SALUTATIONS, max_length=20)
     hospital = models.ForeignKey(Hospital, on_delete=models.CASCADE, blank=True, null=True)
     license_no = models.CharField(max_length=20)
     email = models.EmailField(max_length=254, blank=True, null=True)
@@ -87,6 +95,7 @@ class Doctor(models.Model):
                                                 )
     about = models.TextField(blank=True, null=True)
     is_verified = models.BooleanField(default=False)
+    date_joined = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
         return self.user.username

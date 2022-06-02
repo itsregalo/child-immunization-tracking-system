@@ -17,10 +17,11 @@ from django.contrib import admin
 from django.urls import path, include
 
 urlpatterns = [
-    path('admin/', admin.site.urls),
+    path('superadmin/', admin.site.urls),
     
     path('', include('core.urls', namespace='core')),
     path('accounts/', include('accounts.urls', namespace='accounts')),
+    path('admin/', include('customadmin.urls', namespace='custom-admin'))
 ]
 
 # static and media
@@ -30,5 +31,5 @@ from django.conf.urls.static import static
 urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 
-admin.site.site_header="VACCINE REM"
-admin.site.site_title="VACCINE REM"
+admin.site.site_header="VACTRAC"
+admin.site.site_title="VACTRAC"
