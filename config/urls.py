@@ -33,3 +33,7 @@ urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 
 admin.site.site_header="VACTRAC"
 admin.site.site_title="VACTRAC"
+
+# error pages
+handler404 = 'core.views.error_404'
+handler500 = 'core.views.error_500'

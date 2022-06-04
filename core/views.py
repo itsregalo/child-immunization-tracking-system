@@ -221,3 +221,9 @@ def send_vaccine_notifications(request, *args, **kwargs):
         'doctor': doctor,
     }
     return render(request, 'send_vaccine_notifications.html', context)
+
+def error_404(request, exception):
+    return render(request, '404.html')
+
+def error_500(request):
+    return render(request, '500.html')
