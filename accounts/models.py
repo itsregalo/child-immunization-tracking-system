@@ -96,6 +96,21 @@ class Doctor(models.Model):
     about = models.TextField(blank=True, null=True)
     is_verified = models.BooleanField(default=False)
     date_joined = models.DateTimeField(auto_now_add=True)
+    doctor_id = models.CharField(max_length=10, blank=True, null=True)
+
+    def save(self, *args, **kwargs):
+        get_id_previous_doctor = Doctor.objects.last().id
+        if not self.doctor_id:
+            if self.id is None:
+                if get_id_previous_doctor is None:
+                    self.doctor_id = "D0001"
+                else:
+                    get_id_previous_doctor = get_id_previous_doctor + 1
+                    self.doctor_id = "D" + str(get_id_previous_doctor).zfill(4)
+            else:
+                self.doctor_id = "D" + str(self.id).zfill(4)
+        super().save(*args, **kwargs)
+
 
     def __str__(self):
         return self.user.username
