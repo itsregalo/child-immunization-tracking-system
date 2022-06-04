@@ -1,0 +1,28 @@
+Child Records:  Age
+Child ID
+remove paid
+
+Reports
+    -   Completed Vaccinated
+
+
+Vaccines
+
+
+Homepage
+    -   footer details
+
+Error Pages
+
+DashBoard
+    - Doctors
+    - Parents
+    - Children Records
+    - Ongoing Vaccinations
+    - Compeleted Vaccinations
+    - Charts
+
+    Notifications
+        - Logic to add next appointment on create
+
+    Search Functionality

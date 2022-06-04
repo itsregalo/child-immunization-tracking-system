@@ -1,6 +1,8 @@
 from django.shortcuts import render
 from accounts.models import Doctor, Parent
 from core.models import *
+from .forms import VaccineForm
+from django.http import HttpResponseRedirect
 # Create your views here.
 
 def IndexView(request):
@@ -84,9 +86,16 @@ def ChildCreate(request, *args, **kwargs):
 
 def VaccinesList(request, *args, **kwargs):
     vaccines = Vaccines.objects.all()
+    form = VaccineForm()
+    if request.method == 'POST':
+        form = VaccineForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return HttpResponseRedirect(reverse('custom-admin:vaccines'))
 
     context = {
-        'vaccines':vaccines
+        'vaccines':vaccines,
+        'form':form
     }
     return render(request, 'admin-dash/vaccines.html', context)
 
@@ -102,7 +111,7 @@ def VaccinesDelete(request, pk):
     vaccine = Vaccines.objects.get(pk=pk)
     vaccine.delete()
 
-    return render(request, 'admin-dash/index.html')
+    return HttpResponseRedirect(reverse('custom-admin:vaccines'))
 
 def VaccinesCreate(request, *args, **kwargs):
     return render(request, 'admin-dash/vaccines-create.html')

@@ -1,4 +1,3 @@
-from email.policy import default
 import uuid
 from django.db import models
 from accounts.models import Parent, Doctor
