@@ -50,6 +50,7 @@ GENDER_CHOICES = (
 
 
 class Child(models.Model):
+    child_id = models.CharField(max_length=5, unique=True, blank=True, null=True)
     parent = models.ForeignKey(Parent, on_delete=models.CASCADE)
     birth_no = models.CharField(max_length=50, unique=True)
     first_name = models.CharField(max_length=254)
@@ -84,6 +85,19 @@ class Child(models.Model):
     def get_absolute_url(self):
         return reverse('core:child-profile', kwargs={'uuid': self.uuid})
 
+    def save(self, *args, **kwargs):
+        get_id_last_child = Child.objects.last().id
+        if not self.child_id:
+            if self.id is None:
+                if get_id_last_child is None:
+                    self.child_id = 'C0001'
+                else:
+                    new_id = get_id_last_child + 1
+                    self.child_id = 'C' + str(new_id).zfill(4)
+            else:
+                self.child_id = 'C' + str(self.id).zfill(4)
+        super().save(*args, **kwargs)
+
 
     
     class Meta:
@@ -93,6 +107,8 @@ class Child(models.Model):
 
 
 class Vaccines(models.Model):
+    # vaccine_id with 4 digits start with V
+    vaccine_id = models.CharField(max_length=5, unique=True, blank=True, null=True)
     name = models.CharField(max_length=100)
     description = models.TextField(max_length=254, blank=True, null=True)
     time_given = models.CharField(max_length=254, blank=True, null=True)
@@ -109,8 +125,23 @@ class Vaccines(models.Model):
     def get_absolute_url(self):
         return reverse('core:vaccine-detail', kwargs={'pk': self.pk})
 
+    def save(self, *args, **kwargs):
+        get_id_previous_vaccine = Vaccines.objects.last().id
+        if not self.vaccine_id:
+            if self.id is None:
+                if get_id_previous_vaccine is None:
+                    self.vaccine_id = "V0001"
+                else:
+                    get_id_previous_vaccine = get_id_previous_vaccine + 1
+                    self.vaccine_id = "V" + str(get_id_previous_vaccine).zfill(4)
+            else:
+                self.vaccine_id = "V" + str(self.id).zfill(4)
+        super().save(*args, **kwargs)
+
+
 
 class ChildImmunization(models.Model):
+    child_immunization_id = models.CharField(max_length=5, unique=True, blank=True, null=True)
     child = models.ForeignKey(Child, on_delete=models.CASCADE)
     vaccine = models.ForeignKey(Vaccines, on_delete=models.CASCADE)
     weight = models.DecimalField(max_digits=4, decimal_places=2, blank=True, null=True)
@@ -131,6 +162,20 @@ class ChildImmunization(models.Model):
 
     def __str__(self):
         return f"{self.child.first_name} {self.child.last_name} {self.vaccine.name}"
+
+    def save(self, *args, **kwargs):
+        get_id_of_previous_record = ChildImmunization.objects.last().id
+        if not self.child_immunization_id:
+            if self.id is None:
+                if get_id_of_previous_record:
+                    new_id = get_id_of_previous_record + 1
+                    self.child_immunization_id = 'I' + str(new_id).zfill(4)
+                else:
+                    self.child_immunization_id = 'I' + str(1).zfill(4)
+            else:
+                self.child_immunization_id = 'I' + str(self.id).zfill(4)
+        super().save(*args, **kwargs)
+
 
 
 

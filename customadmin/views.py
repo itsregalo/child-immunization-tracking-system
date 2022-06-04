@@ -53,8 +53,11 @@ def ParentList(request, *args, **kwargs):
 def ParentDetail(request, pk):
     parent = Parent.objects.get(pk=pk)
 
+    parent_children = parent.child_set.all()
+
     context = {
-        'parent':parent
+        'parent':parent,
+        'parent_children':parent_children
     }
     return render(request, 'admin-dash/parent-detail.html', context)
 

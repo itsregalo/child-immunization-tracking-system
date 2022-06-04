@@ -5,14 +5,14 @@ from .models import *
 
 
 class ChildAdmin(admin.ModelAdmin):
-    list_display = ['first_name', 'last_name', 'parent', 'doctor', 'created_at']
+    list_display = ['child_id','first_name', 'last_name', 'parent', 'doctor', 'created_at']
     list_filter = ['created_at']
     search_fields = ['first_name']
 
 admin.site.register(Child, ChildAdmin)
 
 class ChildImmunizationAdmin(admin.ModelAdmin):
-    list_display = ['child', 'vaccine', 'doctor', 'date_given', 'is_vaccinated']
+    list_display = ['child_immunization_id','child', 'vaccine', 'doctor', 'date_given', 'is_vaccinated']
     list_filter = ['date_given', 'is_vaccinated']
     search_fields = ['child']
 
