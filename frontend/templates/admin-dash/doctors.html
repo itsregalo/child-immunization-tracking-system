@@ -34,6 +34,7 @@
                                     <tr>
                                         <th>Doctor Name</th>
                                         <th>Member Since</th>
+                                        <th>Hospital</th>
                                         <th>Account Status</th>
                                         
                                     </tr>
@@ -52,6 +53,7 @@
                                             </td>
                                             
                                             <td>{{ doctor.date_joined | date:'d M Y' }} <br><small>02.59 AM</small></td>
+                                            <td>{{ doctor.hospital }}</td>
                                             <td>
                                                 <div class="status-toggle">
                                                     {% if doctor.is_verified %}
