@@ -101,11 +101,19 @@ def VaccinesList(request, *args, **kwargs):
 
 def VaccinesDetail(request, pk):
     vaccine = Vaccines.objects.get(pk=pk)
+    form = VaccineForm(instance=vaccine)
+
+    if request.method == 'POST':
+        form = VaccineForm(request.POST, instance=vaccine)
+        if form.is_valid():
+            form.save()
+            return HttpResponseRedirect(reverse('custom-admin:vaccines-detail', kwargs={'pk':pk}))
 
     context = {
-        'vaccine':vaccine
+        'vaccine':vaccine,
+        'form':form
     }
-    return render(request, 'admin-dash/vaccines-detail.html', context)
+    return render(request, 'admin-dash/vaccine_detail.html', context)
 
 def VaccinesDelete(request, pk):
     vaccine = Vaccines.objects.get(pk=pk)

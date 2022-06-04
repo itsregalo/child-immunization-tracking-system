@@ -106,6 +106,9 @@ class Vaccines(models.Model):
         verbose_name_plural = 'Vaccines'
         db_table = 'vaccines'
 
+    def get_absolute_url(self):
+        return reverse('core:vaccine-detail', kwargs={'pk': self.pk})
+
 
 class ChildImmunization(models.Model):
     child = models.ForeignKey(Child, on_delete=models.CASCADE)
