@@ -8,6 +8,7 @@ urlpatterns = [
     path('', IndexView, name='index'),
     path('doctors/', DoctorList, name='doctors'),
     path('doctors/<int:pk>/', DoctorDetail, name='doctor-detail'),
+    path('doctors/<int:pk>/suspend/', suspendDoctor, name='suspend-doctor'),
     path('doctors/<int:pk>/delete/', DoctorDelete, name='doctor-delete'),
     path('doctors/create/', DoctorCreate, name='doctor-create'),
     path('parents/', ParentList, name='parents'),

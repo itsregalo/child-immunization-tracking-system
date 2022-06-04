@@ -1,5 +1,6 @@
 from django import forms
 from core.models import Vaccines
+from accounts.models import Doctor
 
 class VaccineForm(forms.ModelForm):
     class Meta:
@@ -11,4 +12,19 @@ class VaccineForm(forms.ModelForm):
             'description': forms.Textarea(attrs={'class': 'form-control', 'rows': '3'}),
             'time_given': forms.TextInput(attrs={'class': 'form-control'}),
             'order': forms.NumberInput(attrs={'class': 'form-control'}),
+        }
+
+class DoctorUpdateForm(forms.ModelForm):
+    class Meta:
+        model = Doctor
+        exclude = ['user', 'profile_picture_thumbnail']
+        widgets = {
+            'license_no': forms.TextInput(attrs={'class': 'form-control'}),
+            'email': forms.EmailInput(attrs={'class': 'form-control'}),
+            'phone_no': forms.TextInput(attrs={'class': 'form-control'}),
+            'address': forms.TextInput(attrs={'class': 'form-control'}),
+            'speciality': forms.TextInput(attrs={'class': 'form-control'}),
+            'about': forms.Textarea(attrs={'class': 'form-control'}),
+            'profile_picture': forms.FileInput(attrs={'class': 'upload', 'rows': '5'}),
+            'is_verified': forms.CheckboxInput(attrs={'class': 'form-control'}),
         }

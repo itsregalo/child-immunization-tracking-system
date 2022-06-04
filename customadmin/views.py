@@ -22,7 +22,15 @@ def DoctorDetail(request, pk):
     context = {
         'doctor':doctor
     }
-    return render(request, 'admin-dash/doctor-detail.html', context)
+    return render(request, 'admin-dash/doctor_profile.html', context)
+
+def suspendDoctor(request, pk):
+    doctor = Doctor.objects.get(pk=pk)
+    doctor.is_active = False
+    doctor.is_verified = False
+    doctor.save()
+
+    return HttpResponseRedirect(reverse('custom-admin:doctors'))
 
 def DoctorDelete(request, pk):
     doctor = Doctor.objects.get(pk=pk)
