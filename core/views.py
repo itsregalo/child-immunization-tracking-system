@@ -20,8 +20,9 @@ sms = africastalking.SMS
 
 
 def IndexView(request, *args, **kwargs):
+    vaccines = Vaccines.objects.all()
     context = {
-
+        'vaccines': vaccines
     }
     return render(request, 'index.html', context)
 
@@ -221,6 +222,12 @@ def send_vaccine_notifications(request, *args, **kwargs):
         'doctor': doctor,
     }
     return render(request, 'send_vaccine_notifications.html', context)
+
+def terms_and_conditions(request, *args, **kwargs):
+    return render(request, 'terms_and_conditions.html')
+
+def privacy_policy(request, *args, **kwargs):
+    return render(request, 'privacy_policy.html')
 
 def error_404(request, exception):
     return render(request, '404.html')

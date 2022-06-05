@@ -19,4 +19,7 @@ urlpatterns = [
     path('doctor-appointments/', doctor_appintments, name='doctor-appointments'),
     path('doctor-profile-settings/', doctor_profile_update, name='doctor-profile-update'),
     path('create-child/', create_child, name='create-child'),
+
+    path('terms-and-conditions/', terms_and_conditions, name='terms-and-conditions'),
+    path('privacy-policy/', privacy_policy, name='privacy-policy'),
 ]
