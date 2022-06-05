@@ -45,9 +45,9 @@
                                     
 
                                         <tr>
+                                            <td><a href="{% url 'custom-admin:doctor-detail' doctor.pk %}">#{{doctor.doctor_id}}</a></td>
                                             <td>
-                                                <h2 class="table-avatar">
-                                                   
+                                                <h2 class="table-avatar"> 
                                                     <a href="{% url 'custom-admin:doctor-detail' doctor.pk %}">{{ doctor.salutation }} {{ doctor.user.first_name }}  {{ doctor.user.last_name }}</a>
                                                 </h2>
                                             </td>

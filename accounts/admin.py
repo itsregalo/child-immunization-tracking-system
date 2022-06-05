@@ -46,6 +46,13 @@ class CustomUserAdmin(UserAdmin):
     )
 admin.site.register(User, CustomUserAdmin)
 admin.site.register(Profile)
-admin.site.register(Doctor)
+
+class DoctorAdmin(admin.ModelAdmin):
+    list_display = ('doctor_id','user', 'hospital', 'license_no', 'email', 'phone_no')
+    search_fields = ('user__username', 'user__email', 'hospital__name', 'license_no', 'email', 'phone_no')
+    list_filter = ('hospital__name',)
+    ordering = ('user__username',)
+admin.site.register(Doctor, DoctorAdmin)
+
 admin.site.register(Parent)
 admin.site.register(MOH)

@@ -113,6 +113,13 @@ class Vaccines(models.Model):
     description = models.TextField(max_length=254, blank=True, null=True)
     time_given = models.CharField(max_length=254, blank=True, null=True)
     order = models.PositiveSmallIntegerField(default=0)
+    picture = models.ImageField(upload_to='vaccines/%Y/%m/%d',
+                                blank=True, null=True)
+    picture_thumbnail = ImageSpecField(source='picture',
+                                        processors=[ResizeToFill(100, 100)],
+                                        format='JPEG',
+                                        options={'quality': 60}
+                                        )
 
     def __str__(self):
         return self.name
