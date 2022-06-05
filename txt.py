@@ -13,5 +13,5 @@ sms = africastalking.SMS
 
 
 # Use the service synchronously
-response = sms.send("Hello Mercy!", ["+254713303092"])
+response = sms.send("Hello Mercy!", [config('mercy_phone')])
 print(response)

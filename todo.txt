@@ -5,10 +5,6 @@ remove paid
 Reports
     -   Completed Vaccinated
 
-
-Vaccines
-
-
 Homepage
     -   footer details
 
