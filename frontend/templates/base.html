@@ -231,7 +231,7 @@
 									<h2 class="footer-title">For Doctors</h2>
 									<ul>
 										<li><a href="{% url 'accounts:login' %}"><i class="fas fa-angle-double-right"></i> Login</a></li>
-										<li><a href="doctor-register.html"><i class="fas fa-angle-double-right"></i> Register</a></li>
+										<li><a href="{% url 'accounts:register-doctor' %}"><i class="fas fa-angle-double-right"></i> Register</a></li>
 										<li><a href="#"><i class="fas fa-angle-double-right"></i> Dashboard</a></li>
 									</ul>
 								</div>
@@ -320,6 +320,4 @@
 		<script src="{% static 'assets/js/script.js' %}"></script>
 		
 	</body>
-
-<!-- doccure/index.html  30 Nov 2019 04:12:03 GMT -->
 </html>
