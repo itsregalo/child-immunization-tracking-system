@@ -22,3 +22,6 @@ DashBoard
         - Logic to add next appointment on create
 
     Search Functionality
+
+ImageToolkit
+    -   Image Resizing
