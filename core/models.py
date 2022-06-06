@@ -155,6 +155,7 @@ class ChildImmunization(models.Model):
     weight = models.DecimalField(max_digits=4, decimal_places=2, blank=True, null=True)
     height = models.DecimalField(max_digits=4, decimal_places=2, blank=True, null=True)
     comment = models.TextField(max_length=254, blank=True, null=True)
+    immunization_date = models.DateTimeField(blank=True, null=True)
     date_given = models.DateTimeField(blank=True, null=True)
     doctor = models.ForeignKey(Doctor, on_delete=models.DO_NOTHING)
     is_vaccinated = models.BooleanField(default=False)
