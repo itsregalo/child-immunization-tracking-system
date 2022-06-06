@@ -8,6 +8,9 @@ from django.contrib import messages
 from django.http import HttpResponseRedirect
 from django.urls import reverse
 from decouple import config
+from django.core.mail import send_mail
+import datetime
+
 
 # Create your views here.
 import africastalking
@@ -137,7 +140,9 @@ def create_child(request, *args, **kwargs):
                 ChildImmunization.objects.create(
                     child=child,
                     vaccine=vaccine,
-                    doctor=doctor
+                    doctor=doctor,
+                    # add duration to today's date
+                    immunization_date = datetime.date.today() + datetime.timedelta(days=vaccine.duration)
                     )
             
           
