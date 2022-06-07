@@ -8,7 +8,7 @@ Reports
 Homepage
     -   footer details
 
-Error Pages
+
 
 DashBoard
     - Doctors
@@ -22,6 +22,3 @@ DashBoard
         - Logic to add next appointment on create
 
     Search Functionality
-
-ImageToolkit
-    -   Image Resizing

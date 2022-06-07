@@ -57,7 +57,15 @@ def LogInView(request, *args, **kwargs):
             messages.info(request, "You have successfully logged in")
             if next_page is not None:
                 return HttpResponseRedirect(next_page)
-            return redirect('core:index')
+            if request.user.is_doctor:
+                return redirect('core:doctor-dashboard')
+            if request.user.is_ministry:
+                return redirect('custom-admin:index')
+            if request.user.is_admin:
+                return redirect('custom-admin:index')
+            if request.user.is_doctor:
+                return redirect('core:doctor-dashboard')
+            return redirect('core:parent-dashboard')
         else:
             messages.error(request,"invalid Login! Try again")
             return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
