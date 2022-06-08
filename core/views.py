@@ -73,10 +73,12 @@ def dashboard_change_password(request, *args, **kwargs):
 def doctor_dashboard(request, *args, **kwargs):
     doctor = Doctor.objects.get(user=request.user)
     doctor_children = Child.objects.filter(doctor=doctor)
+    appointments = ChildImmunization.objects.filter(doctor=doctor).filter(is_vaccinated=False).order_by('-immunization_date')
 
     context = {
         'doctor': doctor,
         'doctor_children': doctor_children,
+        'appointments': appointments,
     }
     return render(request, 'doctor_dashboard.html', context)
 
@@ -95,10 +97,12 @@ def doctor_children_assigned(request, *args, **kwargs):
 def doctor_appintments(request, *args, **kwargs):
     doctor = Doctor.objects.get(user=request.user)
     doctor_children = Child.objects.filter(doctor=doctor)
+    appointments = ChildImmunization.objects.filter(doctor=doctor).filter(is_vaccinated=False).order_by('immunization_date')
 
     context = {
         'doctor': doctor,
         'doctor_children': doctor_children,
+        'appointments': appointments,
     }
     return render(request, 'doctor_appointments.html', context)
 
@@ -141,8 +145,8 @@ def create_child(request, *args, **kwargs):
                     child=child,
                     vaccine=vaccine,
                     doctor=doctor,
-                    # add duration to today's date
-                    immunization_date = datetime.date.today() + datetime.timedelta(days=vaccine.duration)
+                    # add duration to today's date given that duration_given is a durationfield
+                    immunization_date = datetime.date.today() + datetime.timedelta(days=vaccine.days_to_vaccine)
                     )
             
           
@@ -210,6 +214,13 @@ def child_profile_update(request, uuid, *args, **kwargs):
         'form': form,
     }
     return render(request, 'child_profile_update.html', context)
+
+@login_required
+def delete_child(request, uuid, *args, **kwargs):
+    child = Child.objects.get(uuid=uuid)
+    child.delete()
+    messages.success(request, 'Child deleted successfully')
+    return HttpResponseRedirect(reverse('core:doctor-dashboard'))
 
 @login_required
 def send_vaccine_notifications(request, *args, **kwargs):

@@ -19,7 +19,7 @@ class ChildImmunizationAdmin(admin.ModelAdmin):
 admin.site.register(ChildImmunization, ChildImmunizationAdmin)
 
 class VaccinesAdmin(admin.ModelAdmin):
-    list_display = ['vaccine_id','name', 'description', 'time_given', 'order']
+    list_display = ['vaccine_id','name', 'description','days_to_vaccine', 'time_given', 'order']
     list_filter = ['name']
     search_fields = ['name']
 

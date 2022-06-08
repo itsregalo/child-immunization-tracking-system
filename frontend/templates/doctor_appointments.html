@@ -68,14 +68,16 @@
 																	</tr>
 																</thead>
 																<tbody>
+																	{% for child in appointments %}
+																	
 																	<tr>
 																		<td>
 																			<h2 class="table-avatar">
 																				<a href="patient-profile.html" class="avatar avatar-sm mr-2"><img class="avatar-img rounded-circle" src="{% static 'assets/img/patients/patient.jpg' %}" alt="User Image"></a>
-																				<a href="patient-profile.html">Richard Wilson <span>#PT0016</span></a>
+																				<a href="patient-profile.html">{{child.child.first_name}} {{child.child.last_name}} <span>{{ child.child.child_id }}</span></a>
 																			</h2>
 																		</td>
-																		<td>11 Nov 2019 <span class="d-block text-info">10.00 AM</span></td>
+																		<td>{{ child.immunization_date | date:'d M Y' }} <span class="d-block text-info">10.00 AM</span></td>
 																		<td>General</td>
 																		<td>New Patient</td>
 																		<td class="text-center">$150</td>
@@ -94,6 +96,9 @@
 																			</div>
 																		</td>
 																	</tr>
+																
+																	
+																	{% endfor %}
 																	
 																</tbody>
 															</table>		

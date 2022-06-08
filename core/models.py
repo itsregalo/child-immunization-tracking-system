@@ -85,6 +85,7 @@ class Child(models.Model):
     def get_absolute_url(self):
         return reverse('core:child-profile', kwargs={'uuid': self.uuid})
 
+
     def save(self, *args, **kwargs):
         get_id_last_child = Child.objects.last().id
         if not self.child_id:
@@ -121,6 +122,7 @@ class Vaccines(models.Model):
                                         format='JPEG',
                                         options={'quality': 60}
                                         )
+    days_to_vaccine = models.PositiveSmallIntegerField(default=0)
 
     def __str__(self):
         return self.name

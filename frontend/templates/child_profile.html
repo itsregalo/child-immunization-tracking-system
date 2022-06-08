@@ -129,7 +129,7 @@
 																		</h2>
 																	</td>
 																	<td>{{ immunization.vaccine.time_given }} </td>
-																	<td>12 Nov 2019</td>
+																	<td>{{ immunization.immunization_date | date:'d M Y' }}</td>
 																	
 																	{% if immunization.is_vaccinated %}
 																		<td><span class="badge badge-pill bg-success-light">Received</span></td>
