@@ -73,12 +73,16 @@ def dashboard_change_password(request, *args, **kwargs):
 def doctor_dashboard(request, *args, **kwargs):
     doctor = Doctor.objects.get(user=request.user)
     doctor_children = Child.objects.filter(doctor=doctor)
-    appointments = ChildImmunization.objects.filter(doctor=doctor).filter(is_vaccinated=False).order_by('-immunization_date')
+    appointments = ChildImmunization.objects.filter(doctor=doctor).filter(is_vaccinated=False).order_by('immunization_date')
 
+    # appointments in the next 30 days
+    appointments_next_30_days = ChildImmunization.objects.filter(doctor=doctor).filter(is_vaccinated=False).filter(immunization_date__gte=datetime.date.today()).order_by('immunization_date')
     context = {
         'doctor': doctor,
         'doctor_children': doctor_children,
-        'appointments': appointments,
+        'appointments': appointments[:20],
+        'total_appointments': appointments_next_30_days,
+        'today_appointments': ChildImmunization.objects.filter(doctor=doctor).filter(immunization_date=datetime.date.today()).order_by('immunization_date')
     }
     return render(request, 'doctor_dashboard.html', context)
 
@@ -181,10 +185,10 @@ def child_immunization_detail(request, uuid, *args, **kwargs):
             if immunization_form.is_vaccinated:
                 print(child.parent.phone_no)
                 # send notification via sms to parent
-                sms_content = f"Your child {child} has been vaccinated { immunization.vaccine.name } successfully"
-                response = sms.send(sms_content, [f'+{child.parent.phone_no}'])
+                # sms_content = f"Your child {child} has been vaccinated { immunization.vaccine.name } successfully"
+                # response = sms.send(sms_content, [f'+{child.parent.phone_no}'])
                 
-                print(response)
+                # print(response)
             immunization_form.save()
             messages.success(request, 'Immunization updated successfully')
             return HttpResponseRedirect(reverse('core:child-profile', kwargs={'uuid':child.uuid}))

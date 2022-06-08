@@ -61,9 +61,8 @@
 																	<tr>
 																		<th>Patient Name</th>
 																		<th>Appt Date</th>
-																		<th>Purpose</th>
-																		<th>Type</th>
-																		<th class="text-center">Paid Amount</th>
+																		<th>Parent Phone</th>
+																		<th>Vaccine</th>
 																		<th></th>
 																	</tr>
 																</thead>
@@ -73,14 +72,13 @@
 																	<tr>
 																		<td>
 																			<h2 class="table-avatar">
-																				<a href="patient-profile.html" class="avatar avatar-sm mr-2"><img class="avatar-img rounded-circle" src="{% static 'assets/img/patients/patient.jpg' %}" alt="User Image"></a>
+																				
 																				<a href="patient-profile.html">{{child.child.first_name}} {{child.child.last_name}} <span>{{ child.child.child_id }}</span></a>
 																			</h2>
 																		</td>
-																		<td>{{ child.immunization_date | date:'d M Y' }} <span class="d-block text-info">10.00 AM</span></td>
-																		<td>General</td>
-																		<td>New Patient</td>
-																		<td class="text-center">$150</td>
+																		<td>{{ child.immunization_date | date:'d M Y' }} <span class="d-block text-info">{{ child.immunization_date | time }}</span></td>
+																		<td>{{child.child.parent.phone_no}}</td>
+																		<td>{{ child.vaccine.name }}</td>
 																		<td class="text-right">
 																			<div class="table-action">
 																				<a href="javascript:void(0);" class="btn btn-sm bg-info-light">
