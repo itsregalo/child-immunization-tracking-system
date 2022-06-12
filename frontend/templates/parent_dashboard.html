@@ -46,9 +46,6 @@
 											<li class="nav-item">
 												<a class="nav-link active" href="#parent_children_tab" data-toggle="tab">Children</a>
 											</li>
-											<li class="nav-item">
-												<a class="nav-link" href="#pat_billing" data-toggle="tab">Billing</a>
-											</li>
 										</ul>
 									</nav>
 									<!-- /Tab Menu -->
@@ -67,9 +64,7 @@
 																	<th>Child</th>
 																	<th>Date Added</th>
 																	<th>Next Appointment</th>
-																	<th>Amount</th>
-																	<th>Follow Up</th>
-																	<th>Status</th>
+																	<th>Completed</th>
 																	<th></th>
 																</tr>
 															</thead>
@@ -79,23 +74,18 @@
 																	<tr>
 																		<td>
 																			<h2 class="table-avatar">
-																				<a href="doctor-profile.html" class="avatar avatar-sm mr-2">
-																					<img class="avatar-img rounded-circle" src="{% static 'assets/img/doctors/doctor-thumb-01.jpg' %}" alt="User Image">
-																				</a>
-																				<a href="doctor-profile.html">{{ child.first_name }} {{ child.last_name }} <span>{{ child.child_id }}</span></a>
+																				<a href="{{ child.get_absolute_url }}">{{ child.first_name }} {{ child.last_name }} <span>{{ child.child_id }}</span></a>
 																			</h2>
 																		</td>
-																		<td>{{ child.created_at }} <span class="d-block text-info">10.00 AM</span></td>
+																		<td>{{ child.created_at | date:'d M Y' }} <span class="d-block text-info">{{  child.created_at | time }}</span></td>
 																		<td>12 Nov 2019</td>
-																		<td>$160</td>
-																		<td>16 Nov 2019</td>
 																		<td><span class="badge badge-pill bg-success-light">Confirm</span></td>
 																		<td class="text-right">
 																			<div class="table-action">
 																				<a href="javascript:void(0);" class="btn btn-sm bg-primary-light">
 																					<i class="fas fa-print"></i> Print
 																				</a>
-																				<a href="javascript:void(0);" class="btn btn-sm bg-info-light">
+																				<a href="{{ child.get_absolute_url }}" class="btn btn-sm bg-info-light">
 																					<i class="far fa-eye"></i> View
 																				</a>
 																			</div>
@@ -112,56 +102,6 @@
 										</div>
 										<!-- /Appointment Tab -->
 										
-										<!-- Billing Tab -->
-										<div id="pat_billing" class="tab-pane fade">
-											<div class="card card-table mb-0">
-												<div class="card-body">
-													<div class="table-responsive">
-														<table class="table table-hover table-center mb-0">
-															<thead>
-																<tr>
-																	<th>Invoice No</th>
-																	<th>Doctor</th>
-																	<th>Amount</th>
-																	<th>Paid On</th>
-																	<th></th>
-																</tr>
-															</thead>
-															<tbody>
-																<tr>
-																	<td>
-																		<a href="invoice-view.html">#INV-0010</a>
-																	</td>
-																	<td>
-																		<h2 class="table-avatar">
-																			<a href="doctor-profile.html" class="avatar avatar-sm mr-2">
-																				<img class="avatar-img rounded-circle" src="{% static 'assets/img/doctors/doctor-thumb-01.jpg' %}" alt="User Image">
-																			</a>
-																			<a href="doctor-profile.html">Ruby Perrin <span>Dental</span></a>
-																		</h2>
-																	</td>
-																	<td>$450</td>
-																	<td>14 Nov 2019</td>
-																	<td class="text-right">
-																		<div class="table-action">
-																			<a href="invoice-view.html" class="btn btn-sm bg-info-light">
-																				<i class="far fa-eye"></i> View
-																			</a>
-																			<a href="javascript:void(0);" class="btn btn-sm bg-primary-light">
-																				<i class="fas fa-print"></i> Print
-																			</a>
-																		</div>
-																	</td>
-																</tr>
-																
-																
-															</tbody>
-														</table>
-													</div>
-												</div>
-											</div>
-										</div>
-										<!-- /Billing Tab -->
 										
 									</div>
 									<!-- Tab Content -->

@@ -45,26 +45,14 @@ def LogInView(request, *args, **kwargs):
     form = LoginForm()
     if request.method == 'POST':
         form = LoginForm(request.POST)
-        username = form.cleaned_data.get('username')
-        password = form.cleaned_data.get('password')
-    
         if form.is_valid():
+            username = form.cleaned_data.get('username')
+            password = form.cleaned_data.get('password')
             user = authenticate(username=username, password=password)
             if user is not None:
                 if user.is_active:
                     login(request, user)
-                    if next_page is not None:
-                     
-                     
-                     
-                     
-                     
-                     
-                     
-                     
-                     
-                     
-                     
+                    if next_page is not None:  
                         return HttpResponseRedirect(next_page)
                     if request.user.is_doctor:
                         return redirect('core:doctor-dashboard')
