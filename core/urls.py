@@ -1,4 +1,4 @@
-from django.urls import path
+from django.urls import path, re_path
 from .views import *
 
 app_name = 'core'
@@ -24,4 +24,10 @@ urlpatterns = [
 
     path('terms-and-conditions/', terms_and_conditions, name='terms-and-conditions'),
     path('privacy-policy/', privacy_policy, name='privacy-policy'),
+]
+
+from . import consumers
+
+websocket_urlpatterns = [
+    re_path(r'ws/notification/(?P<room_name>\w+)/$', consumers.NotificationConsumer.as_asgi()),
 ]
