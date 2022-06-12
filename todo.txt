@@ -1,12 +1,7 @@
 Child Records:  Age
-Child ID
-remove paid
 
 Reports
     -   Completed Vaccinated
-
-Homepage
-    -   footer details
 
 
 
@@ -22,3 +17,5 @@ DashBoard
         - Logic to add next appointment on create
 
     Search Functionality
+
+Hospitals

@@ -9,6 +9,8 @@ from django.conf import settings
 from imagekit.models import ImageSpecField
 from imagekit.processors import ResizeToFill
 
+from customadmin.models import Hospital
+
 COUNTY_CHOICES = (
     ('NAIROBI COUNTY', 'NAIROBI COUNTY'),
     ('KISUMU COUNTY', 'KISUMU COUNTY'),
@@ -46,14 +48,7 @@ DR_SALUTATIONS = (
 )
 
 
-class Hospital(models.Model):
-    name = models.CharField(max_length=254)
-    license_no = models.CharField(max_length=20, blank=True, null=True)
-    county = models.CharField(choices=COUNTY_CHOICES, max_length=254)
-    date_created = models.DateTimeField(auto_now_add=True)
 
-    def __str__(self):
-        return f'{self.name} -> { self.county }'
 
 class User(AbstractUser):
     is_superuser = models.BooleanField(default=False)

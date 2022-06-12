@@ -3,6 +3,7 @@ from django.db import models
 from accounts.models import Parent, Doctor
 from django.urls import reverse
 
+
 from imagekit.models import ImageSpecField
 from imagekit.processors import ResizeToFill
 
