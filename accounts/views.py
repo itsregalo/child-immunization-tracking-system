@@ -14,6 +14,7 @@ from django.contrib.auth.tokens import PasswordResetTokenGenerator
 from django.contrib.auth import get_user_model
 from decouple import config
 
+from .forms import LoginForm
 User = get_user_model()
 
 """for threading function where a user 
@@ -41,35 +42,46 @@ africastalking.initialize(username, api_key)
         
 def LogInView(request, *args, **kwargs):
     next_page = request.GET.get('next')
+    form = LoginForm()
     if request.method == 'POST':
-        username = request.POST.get('username')
-        password = request.POST.get('password')
+        form = LoginForm(request.POST)
+        username = form.cleaned_data.get('username')
+        password = form.cleaned_data.get('password')
     
-        if username == "":
-            messages.error(request, "Username required")
-        if password == "":
-            messages.error(request, "Password is required")
-        
-        user = authenticate(request, username=username, password=password)
-            
-        if user is not None:
-            login(request, user)
-            messages.info(request, "You have successfully logged in")
-            if next_page is not None:
-                return HttpResponseRedirect(next_page)
-            if request.user.is_doctor:
-                return redirect('core:doctor-dashboard')
-            if request.user.is_ministry:
-                return redirect('custom-admin:index')
-            if request.user.is_admin:
-                return redirect('custom-admin:index')
-            if request.user.is_doctor:
-                return redirect('core:doctor-dashboard')
-            return redirect('core:parent-dashboard')
-        else:
-            messages.error(request,"invalid Login! Try again")
-            return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
-    return render(request, 'auth/login.html')
+        if form.is_valid():
+            user = authenticate(username=username, password=password)
+            if user is not None:
+                if user.is_active:
+                    login(request, user)
+                    if next_page is not None:
+                     
+                     
+                     
+                     
+                     
+                     
+                     
+                     
+                     
+                     
+                     
+                        return HttpResponseRedirect(next_page)
+                    if request.user.is_doctor:
+                        return redirect('core:doctor-dashboard')
+                    if request.user.is_ministry:
+                        return redirect('custom-admin:index')
+                    if request.user.is_admin:
+                        return redirect('custom-admin:index')
+                    if request.user.is_doctor:
+                        return redirect('core:doctor-dashboard')
+                    return redirect('core:parent-dashboard')
+                messages.error(request,"invalid Login! Try again")
+                return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
+            return render(request, 'auth/login.html')
+    context = {
+        'form': form,
+    }
+    return render(request, 'auth/login.html', context)
 
 def LogOutView(request, *args, **kwargs):
     logout(request)
