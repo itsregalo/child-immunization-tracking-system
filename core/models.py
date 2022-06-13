@@ -1,11 +1,15 @@
-import uuid
+import uuid, datetime
 from django.db import models
 from accounts.models import Parent, Doctor
 from django.urls import reverse
+from django.conf import settings
 
 
 from imagekit.models import ImageSpecField
 from imagekit.processors import ResizeToFill
+
+import redis
+from .africanstalking_configs import sms
 
 # Create your models here.
 
@@ -188,7 +192,23 @@ class ChildImmunization(models.Model):
                 self.child_immunization_id = 'I' + str(self.id).zfill(4)
         super().save(*args, **kwargs)
 
+    def schedule_reminder(self):
+        appointment_time = self.immunization_date
+        reminder_time = appointment_time - datetime.timedelta(days=2)
+        now = datetime.datetime.now()
+        milli_to_wait = int(
+            (reminder_time - now).total_seconds()) * 1000
 
+        # schedule the reminder
+        from .views import send_sms_reminder
+        response = send_sms_reminder.send_with_options(
+            args = [self.uuid],
+            delay = milli_to_wait,
+        )
+        return response.options['redis_message_id']
 
+    def cancel_task(self):
+        redis_client = redis.Redis(host=settings.REDIS_LOCAL, port=6379, db=0)
+        redis_client.hdel("dramatiq:default.DQ.msgs", self.task_id)
 
     

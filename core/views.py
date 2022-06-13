@@ -1,3 +1,4 @@
+from urllib import response
 from django.shortcuts import render, get_object_or_404
 from django.contrib.auth.decorators import login_required
 from .models import *
@@ -11,15 +12,10 @@ from decouple import config
 from django.core.mail import send_mail
 import datetime
 
+from .africanstalking_configs import sms
 
 # Create your views here.
-import africastalking
 
-username = "vax"
-api_key = config('API_KEY')
-africastalking.initialize(username, api_key)
-
-sms = africastalking.SMS
 
 
 def IndexView(request, *args, **kwargs):
@@ -242,6 +238,19 @@ def send_vaccine_notifications(request, *args, **kwargs):
         'doctor': doctor,
     }
     return render(request, 'send_vaccine_notifications.html', context)
+
+def send_sms_reminder(request, uuid, *args, **kwargs):  
+    try:
+        child_immunization = ChildImmunization.objects.get(uuid=uuid)
+    except ChildImmunization.DoesNotExist:
+        pass
+
+    appointment_time = child_immunization.immunization_date
+    message = f"This is to remind you of your next immunization appointment for {child_immunization.child.first_name} is scheduled at (hospital name) on {appointment_time}We look forward to seeing you then"
+    response = sms.send(f"{message}", [f'+{child_immunization.child.parent.phone_no}'])
+
+
+
 
 def terms_and_conditions(request, *args, **kwargs):
     return render(request, 'terms_and_conditions.html')
