@@ -1,7 +1,9 @@
 from django import forms
+from requests import request
 from .models import *
 # import authenicate
 from django.contrib.auth import authenticate, login
+from django.contrib import messages
 
 
 class DoctorRegistrationForm(forms.ModelForm):
@@ -114,9 +116,12 @@ class RegistrationForm(forms.Form):
         # check if user already exists
         user = User.objects.filter(username=username)
         if user:
+            messages.error(request, 'Username already exists')
             raise forms.ValidationError('Username already exists')
+           
         user = User.objects.filter(email=email)
         if user:
+            messages.error(request, 'Email already exists')
             raise forms.ValidationError('Email already exists')
         user = User.objects.create_user(username=username,phone_no=phone_no, email=email, password=password)
         user.save()

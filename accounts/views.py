@@ -14,7 +14,7 @@ from django.contrib.auth.tokens import PasswordResetTokenGenerator
 from django.contrib.auth import get_user_model
 from decouple import config
 
-from .forms import LoginForm
+from .forms import LoginForm, RegistrationForm
 User = get_user_model()
 
 """for threading function where a user 
@@ -77,48 +77,12 @@ def LogOutView(request, *args, **kwargs):
     return redirect('core:index')
 
 def RegisterView(request):
+    form = RegistrationForm()
     if request.method == 'POST':
-        username = request.POST.get('username')
-        email = request.POST.get('email')
-        phone = request.POST.get('phone')
-        password1 = request.POST.get('password')
-        password2 = request.POST.get('password2')
-        
-        if username == "":
-            messages.error(request, "Username is required")
-        if email == "":
-            messages.error(request, "Email is required")
-        if phone == "":
-            messages.error(request, "phone is required")
-        if password1 == "":
-            messages.error(request, "Password is required")
-        if password2 == "":
-            messages.error(request, "Repeat Password is required")
-            return redirect('accounts:register')
-        
-        if User.objects.filter(username=username).exists():
-            messages.error(request, "A user with the username exists")
-        if User.objects.filter(phone_no=phone).exists():
-            messages.error(request, "The Phone Number has already been taken")
-        if User.objects.filter(email=email).exists():
-            messages.error(request, "The Email has already been taken")
-            return redirect('accounts:register')
-
-        
-        if password1 != password2:
-            messages.error(request, "Passwords do not match")
-        if len(password1)<6:
-            messages.error(request,"Password is too short")
-            return redirect('accounts:register') 
-            
-                
-        else:
-            user = User.objects.create_user(username=username, 
-                                            email=email,
-                                            phone_no=phone
-            )
-            user.set_password(password1)
-            user.is_active=False
+        form = RegistrationForm(request.POST)
+        if form.is_valid():
+            user = form.save(commit=False)
+            user.is_active = False
             user.save()
             
             uidb64 = urlsafe_base64_encode(force_bytes(user.pk))
@@ -134,7 +98,7 @@ def RegisterView(request):
 
             
             mail_body = f"hi {user.username} click the link below to verify your account\n {activate_url}"
-            mail = send_mail (mail_subject, mail_body,'noreply@courses.com',[email], fail_silently=False)
+            mail = send_mail (mail_subject, mail_body,'noreply@courses.com',[user.email], fail_silently=False)
             messages.success(request, "Account created, Check your email to activate your account")
             return redirect('accounts:login')
             
