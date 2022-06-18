@@ -81,9 +81,7 @@ def RegisterView(request):
     if request.method == 'POST':
         form = RegistrationForm(request.POST)
         if form.is_valid():
-            user = form.save(commit=False)
-            user.is_active = False
-            user.save()
+            user = form.save()
             
             uidb64 = urlsafe_base64_encode(force_bytes(user.pk))
             domain = get_current_site(request).domain #gives us the domain
@@ -102,7 +100,7 @@ def RegisterView(request):
             messages.success(request, "Account created, Check your email to activate your account")
             return redirect('accounts:login')
             
-    return render(request, 'auth/register.html', {})
+    return render(request, 'auth/register.html', {'form': form})
 
 def DoctorRegistration(request):
     if request.method == 'POST':

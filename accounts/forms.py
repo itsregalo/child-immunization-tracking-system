@@ -21,47 +21,44 @@ class DoctorRegistrationForm(forms.ModelForm):
         }
 
 class LoginForm(forms.Form):
-    username = forms.CharField(label='Username', max_length=100, widget=forms.TextInput(attrs={'class': 'form-control'}))
+    email = forms.EmailField(widget=forms.EmailInput(attrs={'class': 'form-control'}))
     password = forms.CharField(widget=forms.PasswordInput(attrs={'class': 'form-control'}))
 
-    fields = ['username', 'password']
+    fields = ['email', 'password']
 
-    def clean_username(self):
-        username = self.cleaned_data.get('username')
-        if not username:
-            raise forms.ValidationError('Username is required')
-        return username
+    def clean_email(self):
+        email = self.cleaned_data.get('email')
+        if email:
+            user = User.objects.filter(email=email)
+            if not user:
+                raise forms.ValidationError("Invalid email")
+        return email
 
     def clean_password(self):
+        # passeord length must be greater than 8 characters
         password = self.cleaned_data.get('password')
-        if not password:
-            raise forms.ValidationError('Password is required')
+        if len(password) < 8:
+            raise forms.ValidationError("Password must be at least 8 characters long")
         return password
 
     def clean(self):
-        cleaned_data = super(LoginForm, self).clean()
-        username = cleaned_data.get('username')
-        password = cleaned_data.get('password')
-        if not username or not password:
-            raise forms.ValidationError('Username and Password are required')
-        return cleaned_data
-
-    def save(self):
-        username = self.cleaned_data.get('username')
+        email = self.cleaned_data.get('email')
         password = self.cleaned_data.get('password')
-        user = authenticate(username=username, password=password)
-        if user is not None:
-            login(self.request, user)
-            return user
-        else:
-            raise forms.ValidationError('Invalid username or password')
+
+        if email and password:
+            user = authenticate(email=email, password=password)
+            if not user:
+                raise forms.ValidationError("Invalid email or password")
+            if not user.is_active:
+                raise forms.ValidationError("This user is not active")
+        return self.cleaned_data
 
 class RegistrationForm(forms.Form):
-    username = forms.CharField(label='Username', max_length=100, widget=forms.TextInput(attrs={'class': 'form-control'}))
-    email = forms.EmailField(label='Email', max_length=100, widget=forms.EmailInput(attrs={'class': 'form-control'}))
-    phone_no = forms.CharField(label='Phone No', max_length=100, widget=forms.TextInput(attrs={'class': 'form-control'}))
-    password = forms.CharField(widget=forms.PasswordInput(attrs={'class': 'form-control'}))
-    confirm_password = forms.CharField(widget=forms.PasswordInput(attrs={'class': 'form-control'}))
+    username = forms.CharField(label='Username', max_length=100, widget=forms.TextInput(attrs={'class': 'form-control floating', 'placeholder': 'Username'}))
+    email = forms.EmailField(label='Email', max_length=100, widget=forms.EmailInput(attrs={'class': 'form-control floating' , 'placeholder': 'Email'}))
+    phone_no = forms.CharField(label='Phone No', max_length=100, widget=forms.TextInput(attrs={'class': 'form-control floating', 'placeholder': 'Phone No'}))
+    password = forms.CharField(widget=forms.PasswordInput(attrs={'class': 'form-control floating', 'placeholder': 'Password'}))
+    confirm_password = forms.CharField(widget=forms.PasswordInput(attrs={'class': 'form-control floating', 'placeholder': 'Confirm Password'}))
 
     fields = ['username', 'email', 'phone_no', 'password', 'confirm_password']
 
@@ -123,7 +120,16 @@ class RegistrationForm(forms.Form):
         if user:
             messages.error(request, 'Email already exists')
             raise forms.ValidationError('Email already exists')
-        user = User.objects.create_user(username=username,phone_no=phone_no, email=email, password=password)
+        
+        # pick last 9 digits of phone no
+        phone_no = "254"+str(phone_no[-9:])
+        user = User.objects.create_user(
+            username=username,
+            phone_no=phone_no, 
+            email=email
+            )
+        user.set_password(password)
+        user.is_active=False
         user.save()
         return user
 

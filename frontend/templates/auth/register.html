@@ -21,30 +21,35 @@
 									</div>
 									<div class="col-md-12 col-lg-6 login-right">
 										<div class="login-header">
-											<h3>Patient Register <a href="{% url 'accounts:register-doctor' %}">Are you a Doctor?</a></h3>
+											<h3>Parent Register <a href="{% url 'accounts:register-doctor' %}">Are you a Doctor?</a></h3>
 										</div>
 										
 										<!-- Register Form -->
 										<form method="POST" action="{% url 'accounts:register' %}">{% csrf_token %}
 											<div class="form-group form-focus">
-												<input name='username' type="text" class="form-control floating">
-												<label class="focus-label">Name</label>
+												{{ form.username }}
+												<label class="focus-label">Username</label>
+												<small class="text-danger">{{ form.username.errors|first }}</small>
 											</div>
 											<div class="form-group form-focus">
-												<input name='email' type="text" class="form-control floating">
+												{{ form.email }}
 												<label class="focus-label">Email</label>
+												<small class="text-danger">{{ form.email.errors|first }}</small>
 											</div>
 											<div class="form-group form-focus">
-												<input name='phone' type="text" class="form-control floating">
+												{{ form.phone_no }}
 												<label class="focus-label">Mobile Number</label>
+												<small class="text-danger">{{ form.phone_no.errors|first }}</small>
 											</div>
 											<div class="form-group form-focus">
-												<input name='password' type="password" class="form-control floating">
-												<label class="focus-label">Create Password</label>
+												{{ form.password }}
+												<label class="focus-label">Password</label>
+												<small class="text-danger">{{ form.password.errors|first }}</small>
 											</div>
 											<div class="form-group form-focus">
-												<input name='password2' type="password" class="form-control floating">
-												<label class="focus-label">Repeat Password</label>
+												{{ form.confirm_password }}
+												<label class="focus-label">Confirm Password</label>
+												<small class="text-danger">{{ form.confirm_password.errors|first }}</small>
 											</div>
 											<div class="text-right">
 												<a class="forgot-link" href="{% url 'accounts:login' %}">Already have an account?</a>
