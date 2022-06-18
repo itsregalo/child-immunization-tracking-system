@@ -40,6 +40,8 @@ class HospitalForm(forms.ModelForm):
             'license_no': forms.TextInput(attrs={'class': 'form-control'}),
             'county': forms.Select(attrs={'class': 'form-control'}),
             'address': forms.TextInput(attrs={'class': 'form-control'}),
+            'phone_no': forms.TextInput(attrs={'class': 'form-control'}),
+            
         }
 
 

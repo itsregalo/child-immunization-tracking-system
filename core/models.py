@@ -92,7 +92,10 @@ class Child(models.Model):
 
 
     def save(self, *args, **kwargs):
-        get_id_last_child = Child.objects.last().id
+        try:
+            get_id_last_child = Child.objects.last().id
+        except:
+            get_id_last_child = 0
         if not self.child_id:
             if self.id is None:
                 if get_id_last_child is None:
@@ -141,7 +144,10 @@ class Vaccines(models.Model):
         return reverse('core:vaccine-detail', kwargs={'pk': self.pk})
 
     def save(self, *args, **kwargs):
-        get_id_previous_vaccine = Vaccines.objects.last().id
+        try:
+            get_id_previous_vaccine = Vaccines.objects.last().id
+        except:
+            get_id_previous_vaccine = 0
         if not self.vaccine_id:
             if self.id is None:
                 if get_id_previous_vaccine is None:
@@ -180,7 +186,10 @@ class ChildImmunization(models.Model):
         return f"{self.child.first_name} {self.child.last_name} {self.vaccine.name}"
 
     def save(self, *args, **kwargs):
-        get_id_of_previous_record = ChildImmunization.objects.last().id
+        try:
+            get_id_of_previous_record = ChildImmunization.objects.last().id
+        except:
+            get_id_of_previous_record = 0
         if not self.child_immunization_id:
             if self.id is None:
                 if get_id_of_previous_record:

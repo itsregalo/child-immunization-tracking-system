@@ -1,7 +1,7 @@
 from django.shortcuts import render
 from accounts.models import Doctor, Parent
 from core.models import *
-from .forms import VaccineForm
+from .forms import VaccineForm, HospitalForm
 from django.http import HttpResponseRedirect
 from .models import Hospital, County
 # Create your views here.
@@ -136,12 +136,44 @@ def VaccinesDelete(request, pk):
 def VaccinesCreate(request, *args, **kwargs):
     return render(request, 'admin-dash/vaccines-create.html')
 
-
-def HospitalList(request, *args, **kwargs):
-    hospitals = Hospital.objects.all()
+def CountiesList(request, *args, **kwargs):
+    counties = County.objects.all()
 
     context = {
-        'hospitals':hospitals
+        'counties':counties
+    }
+    return render(request, 'admin-dash/counties.html', context)
+
+def CountiesDetail(request, slug):
+    county = County.objects.get(slug=slug)
+
+    context = {
+        'county':county
+    }
+    return render(request, 'admin-dash/county-detail.html', context)
+
+
+def HospitalList(request, *args, **kwargs):
+    form = HospitalForm()
+    hospitals = Hospital.objects.all()
+
+    if request.method == 'POST':
+        form = HospitalForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return HttpResponseRedirect(reverse('custom-admin:hospitals'))
+
+    context = {
+        'hospitals':hospitals,
+        'form':form
     }
     return render(request, 'admin-dash/hospitals.html', context)
+
+def HospitalDetail(request, uuid):
+    hospital = Hospital.objects.get(uuid=uuid)
+
+    context = {
+        'hospital':hospital
+    }
+    return render(request, 'admin-dash/hospital-detail.html', context)
 

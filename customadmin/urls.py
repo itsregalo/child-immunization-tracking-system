@@ -23,6 +23,11 @@ urlpatterns = [
     path('vaccines/<int:pk>/', VaccinesDetail, name='vaccines-detail'),
     path('vaccines/<int:pk>/delete/', VaccinesDelete, name='vaccines-delete'),
     path('vaccines/create/', VaccinesCreate, name='vaccines-create'),
+    path('counties/', CountiesList, name='counties'),
+    path('counties/<slug>/', CountiesDetail, name='counties-detail'),
+    path('hospitals/', HospitalList, name='hospitals'),
+    path('hospitals/<uuid>/', HospitalDetail, name='hospital-detail'),
+    
 
     
 ]
