@@ -250,26 +250,30 @@ def send_sms_reminder(request, uuid, *args, **kwargs):
 @login_required
 def doctor_send_notification(request, *args, **kwargs):
     parents = Parent.objects.all()
-    doctor = Doctor.objects.get(user=request.user)
+    if request.user.is_doctor:
+        doctor = Doctor.objects.get(user=request.user)
     
-    parents_phone_numbers = []
-    for parent in parents:
-        parents_phone_numbers.append(parent.phone_no)
+        parents_phone_numbers = []
+        
 
-    if request.method == 'POST':
-        message = request.POST.get('message')
-        response = sms.send(message, parents_phone_numbers)
-        print(response)
-        # save response to media folder in a file called sms_response.txt
-        with open('/media/SMS_RESPONSES/sms_response.txt', 'w') as f:
-            f.write(response)
-        messages.success(request, 'Notification sent successfully')
-        return HttpResponseRedirect(reverse('core:doctor-dashboard'))
-    context = {
-        'doctor': doctor,
-    }
+        if request.method == 'POST':
+            for parent in parents:
+                if parent.user.phone_no is not None:
+                    parents_phone_numbers.append('+254'+str(parent.user.phone_no[-9:]))
+            print(parents_phone_numbers)
+            message = request.POST.get('message')
+            response = sms.send(message, parents_phone_numbers)
+            print(response)
+            # save response to media folder in a file called sms_response.txt
+          
+            messages.success(request, 'Notification sent successfully')
+            return HttpResponseRedirect(reverse('core:doctor-dashboard'))
+        context = {
+            'doctor': doctor,
+        }
+        return render(request, 'doctor_send_notification.html', context)
     messages.error(request, 'You are not authorized to perform this action')
-    return render(request, 'doctor_send_notification.html', context)
+    return HttpResponseRedirect(reverse('core:index'))
 
 
 
