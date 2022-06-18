@@ -177,3 +177,9 @@ def HospitalDetail(request, uuid):
     }
     return render(request, 'admin-dash/hospital-detail.html', context)
 
+def HospitalDelete(request, uuid):
+    hospital = Hospital.objects.get(uuid=uuid)
+    hospital.delete()
+
+    return HttpResponseRedirect(reverse('custom-admin:hospitals'))
+

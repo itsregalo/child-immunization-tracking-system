@@ -10,19 +10,18 @@
     
         <!-- Page Header -->
         <div class="page-header">
-            <div class="row">
-                <div class="col-sm-12">
-                    <h3 class="page-title">List of Hospitals</h3>
-                    <ul class="breadcrumb">
-                        <li class="breadcrumb-item"><a href="{% url 'custom-admin:index' %}">Dashboard</a></li>
-                        <li class="breadcrumb-item"><a href="javascript:(0);">Users</a></li>
-                        <li class="breadcrumb-item active">Hospitals</li>
-                    </ul>
+                <div class="row">
+                    <div class="col-sm-7 col-auto">
+                        <h3 class="page-title">Hospital</h3>
+                        <ul class="breadcrumb">
+                            <li class="breadcrumb-item"><a href="{% url 'custom-admin:hospitals' %}">Dashboard</a></li>
+                            <li class="breadcrumb-item active">Hospital</li>
+                        </ul>
+                    </div>
+                    <div class="col-sm-5 col">
+                        <a href="#Add_Hospital" data-toggle="modal" class="btn btn-primary float-right mt-2">Add</a>
+                    </div>
                 </div>
-                <div class="col-sm-5 col">
-                    <a href="#Add_Hospital" data-toggle="modal" class="btn btn-primary float-right mt-2">Add</a>
-                </div>
-            </div>
         </div>
         <!-- /Page Header -->
         
@@ -39,6 +38,8 @@
                                         <th>Hospital Name</th>
                                         <th>County</th>
                                         <th>Address</th>
+                                        <th>Phone</th>
+                                        <th class="text-right">Action</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -47,15 +48,26 @@
                                     {% for hospital in hospitals %}
                                     
                                     <tr>
-                                        <td>#PT001</td>
+                                        <td>#{{ hospital.hospital_id }}</td>
                                         <td>
                                             <h2 class="table-avatar">
                                                 
-                                                <a href="profile.html">{{ hospital.name }} </a>
+                                                <a href="{{ hospital.get_absolute_url }}">{{ hospital.name }} </a>
                                             </h2>
                                         </td>
+                                        <td>{{ hospital.county.name }}</td>
                                         <td>{{ hospital.address }}</td>
-                                        <td>{{hospital.user.phone_no}}</td>
+                                        <td>{{hospital.phone_no}}</td>
+                                        <td class="text-right">
+                                            <div class="actions">
+                                                <a class="btn btn-sm bg-success-light" href="{% url 'custom-admin:hospital-detail' hospital.uuid %}">
+                                                    <i class="fe fe-pencil"></i> View
+                                                </a>
+                                                <a  data-toggle="modal" href="#delete_modal_{{ hospital.id }}" class="btn btn-sm bg-danger-light">
+                                                    <i class="fe fe-trash"></i> Delete
+                                                </a>
+                                            </div>
+                                        </td>
                                     </tr>
                                     
                                     {% endfor %}
@@ -131,5 +143,25 @@
     </div>
 </div>
 <!-- /ADD Modal -->
+
+
+<!-- Delete Modal -->
+{% for hospital in hospitals %}
+    <div class="text-center modal fade" id="delete_modal_{{ hospital.id }}" aria-hidden="true" role="dialog">
+        <div class="modal-dialog modal-dialog-centered" role="document" >
+            <div class="modal-content">
+                <div class="modal-body">
+                    <div class="form-content p-2">
+                        <h4 class="modal-title">Delete</h4>
+                        <p class="mb-4">Are you sure want to delete?</p>
+                        <a href="{% url 'custom-admin:hospital-delete' hospital.id %}"><button type="button" class="btn btn-primary">Confirm </button></a>
+                        <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endfor %}
+<!-- /Delete Modal -->
 
 {% endblock body %}

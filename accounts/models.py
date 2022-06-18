@@ -112,6 +112,7 @@ class Doctor(models.Model):
         return self.user.username
 
 class Parent(models.Model):
+    parent_id = models.CharField(max_length=10, blank=True, null=True)
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     # parent_id = models.CharField(max_length=20, blank=True)
     email = models.EmailField(max_length=254, blank=True, null=True)
@@ -129,10 +130,20 @@ class Parent(models.Model):
     def __str__(self):
         return self.user.username
 
-    # def save(self, *args, **kwargs):
-    #     if not self.parent_id:
-    #         self.parent_id = self.id
-    #     super().save(*args, **kwargs)
+    def save(self, *args, **kwargs):
+        try:
+            get_id_previous_parent = Parent.objects.last().id
+        except Parent.DoesNotExist:
+            get_id_previous_parent = 0
+        if not self.parent_id:
+            if self.id is None:
+                if get_id_previous_parent is None:
+                    self.parent_id = "P0001"
+                else:
+                    get_id_previous_parent = get_id_previous_parent + 1
+                    self.parent_id = "P" + str(get_id_previous_parent).zfill(4)
+            else:
+                self.parent_id = "P" + str(self.id).zfill(4)
 
 class MOH(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)

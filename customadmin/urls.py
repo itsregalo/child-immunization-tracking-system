@@ -27,6 +27,7 @@ urlpatterns = [
     path('counties/<slug>/', CountiesDetail, name='counties-detail'),
     path('hospitals/', HospitalList, name='hospitals'),
     path('hospitals/<uuid>/', HospitalDetail, name='hospital-detail'),
+    path('hospitals/<uuid>/delete/', HospitalDelete, name='hospital-delete'),
     
 
     

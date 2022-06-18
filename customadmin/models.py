@@ -1,6 +1,7 @@
 import uuid
 from django.db import models
 from django.utils.text import slugify
+from django.urls import reverse
 
 # Create your models here.
 
@@ -34,13 +35,17 @@ class Hospital(models.Model):
     def __str__(self):
         return f'{self.name} -> { self.county }'
 
+    def get_absolute_url(self):
+        return reverse('custom-admin:hospital-detail', kwargs={'uuid': self.uuid})
+
     def save(self, *args, **kwargs):
         try:
             get_id_of_previous_record = Hospital.objects.last().id
-        except:
+        except Hospital.DoesNotExist:
             get_id_of_previous_record = 0
         if not self.hospital_id:
             if self.id is None:
+
                 if get_id_of_previous_record:
                     new_id = get_id_of_previous_record + 1
                     self.hospital_id = 'H' + str(new_id).zfill(4)
