@@ -3,6 +3,7 @@ from accounts.models import Doctor, Parent
 from core.models import *
 from .forms import VaccineForm
 from django.http import HttpResponseRedirect
+from .models import Hospital, County
 # Create your views here.
 
 def IndexView(request):
@@ -134,3 +135,13 @@ def VaccinesDelete(request, pk):
 
 def VaccinesCreate(request, *args, **kwargs):
     return render(request, 'admin-dash/vaccines-create.html')
+
+
+def HospitalList(request, *args, **kwargs):
+    hospitals = Hospital.objects.all()
+
+    context = {
+        'hospitals':hospitals
+    }
+    return render(request, 'admin-dash/hospitals.html', context)
+

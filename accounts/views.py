@@ -46,9 +46,10 @@ def LogInView(request, *args, **kwargs):
     if request.method == 'POST':
         form = LoginForm(request.POST)
         if form.is_valid():
-            username = form.cleaned_data.get('username')
+            email = form.cleaned_data.get('email')
             password = form.cleaned_data.get('password')
-            user = authenticate(username=username, password=password)
+            print(email, password)
+            user = authenticate(email=email, password=password)
             if user is not None:
                 if user.is_active:
                     login(request, user)
@@ -65,6 +66,7 @@ def LogInView(request, *args, **kwargs):
                     return redirect('core:parent-dashboard')
                 messages.error(request,"invalid Login! Try again")
                 return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
+            print(form.errors)
             return render(request, 'auth/login.html')
     context = {
         'form': form,

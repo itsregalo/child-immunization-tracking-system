@@ -51,6 +51,7 @@ DR_SALUTATIONS = (
 
 
 class User(AbstractUser):
+    email = models.EmailField(unique=True)
     is_superuser = models.BooleanField(default=False)
     is_admin = models.BooleanField(default=False)
     is_staff = models.BooleanField(default=False)
@@ -60,8 +61,8 @@ class User(AbstractUser):
     phone_no = models.CharField(max_length=13, blank=True, null=True)
     ver_code = models.CharField(blank=True, null=True, max_length=10)
 
-    # USERNAME_FIELD = 'email'
-    # REQUIRED_FIELDS = ['username',]
+    USERNAME_FIELD = 'email'
+    REQUIRED_FIELDS = ['username']
 
 class Profile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)

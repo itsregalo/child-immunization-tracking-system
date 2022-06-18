@@ -1,6 +1,7 @@
 from django import forms
 from core.models import Vaccines
 from accounts.models import Doctor
+from .models import County, Hospital
 
 class VaccineForm(forms.ModelForm):
     class Meta:
@@ -28,3 +29,17 @@ class DoctorUpdateForm(forms.ModelForm):
             'profile_picture': forms.FileInput(attrs={'class': 'upload', 'rows': '5'}),
             'is_verified': forms.CheckboxInput(attrs={'class': 'form-control'}),
         }
+
+class HospitalForm(forms.ModelForm):
+    class Meta:
+        model = Hospital
+        fields = '__all__'
+
+        widgets = {
+            'name': forms.TextInput(attrs={'class': 'form-control'}),
+            'license_no': forms.TextInput(attrs={'class': 'form-control'}),
+            'county': forms.Select(attrs={'class': 'form-control'}),
+            'address': forms.TextInput(attrs={'class': 'form-control'}),
+        }
+
+
