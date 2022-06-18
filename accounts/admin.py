@@ -55,7 +55,7 @@ class DoctorAdmin(admin.ModelAdmin):
 admin.site.register(Doctor, DoctorAdmin)
 
 class ParentAdmin(admin.ModelAdmin):
-    list_display = ('user', 'phone_no')
+    list_display = ('parent_id','user', 'phone_no')
     search_fields = ('user__username', 'user__email', 'phone_no')
     list_filter = ('user__username',)
     ordering = ('user__username',)

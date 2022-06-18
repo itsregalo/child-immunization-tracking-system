@@ -15,9 +15,6 @@ import datetime
 from .africanstalking_configs import sms
 
 # Create your views here.
-
-
-
 def IndexView(request, *args, **kwargs):
     vaccines = Vaccines.objects.all()
     context = {
@@ -40,7 +37,7 @@ def ParentDashboard(request, *args, **kwargs):
 def parent_profile_settings(request, *args, **kwargs):
     parent = Parent.objects.get(user=request.user)
     context = {
-
+        'parent': parent,
     }
     return render(request, 'profile-settings.html', context)
 
@@ -249,6 +246,30 @@ def send_sms_reminder(request, uuid, *args, **kwargs):
     message = f"This is to remind you of your next immunization appointment for {child_immunization.child.first_name} is scheduled at (hospital name) on {appointment_time}We look forward to seeing you then"
     response = sms.send(f"{message}", [f'+{child_immunization.child.parent.phone_no}'])
 
+
+@login_required
+def doctor_send_notification(request, *args, **kwargs):
+    parents = Parent.objects.all()
+    doctor = Doctor.objects.get(user=request.user)
+    
+    parents_phone_numbers = []
+    for parent in parents:
+        parents_phone_numbers.append(parent.phone_no)
+
+    if request.method == 'POST':
+        message = request.POST.get('message')
+        response = sms.send(message, parents_phone_numbers)
+        print(response)
+        # save response to media folder in a file called sms_response.txt
+        with open('/media/SMS_RESPONSES/sms_response.txt', 'w') as f:
+            f.write(response)
+        messages.success(request, 'Notification sent successfully')
+        return HttpResponseRedirect(reverse('core:doctor-dashboard'))
+    context = {
+        'doctor': doctor,
+    }
+    messages.error(request, 'You are not authorized to perform this action')
+    return render(request, 'doctor_send_notification.html', context)
 
 
 

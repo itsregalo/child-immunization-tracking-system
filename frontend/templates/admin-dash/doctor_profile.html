@@ -47,7 +47,7 @@
 									<div class="col-auto profile-btn">
 										
 										{% if doctor.is_verified %}
-                                            <a href="{% url 'custom-admin:suspend-doctor' %}" class="btn btn-danger">
+                                            <a href="{% url 'custom-admin:suspend-doctor' doctor.pk %}" class="btn btn-danger">
                                                 Suspend
                                             </a>
                                         {% else %}
