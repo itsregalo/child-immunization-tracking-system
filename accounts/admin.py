@@ -54,5 +54,12 @@ class DoctorAdmin(admin.ModelAdmin):
     ordering = ('user__username',)
 admin.site.register(Doctor, DoctorAdmin)
 
-admin.site.register(Parent)
+class ParentAdmin(admin.ModelAdmin):
+    list_display = ('user', 'phone_no')
+    search_fields = ('user__username', 'user__email', 'phone_no')
+    list_filter = ('user__username',)
+    ordering = ('user__username',)
+
+admin.site.register(Parent, ParentAdmin)
+
 admin.site.register(MOH)

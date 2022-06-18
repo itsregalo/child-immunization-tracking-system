@@ -114,7 +114,6 @@ class Doctor(models.Model):
 class Parent(models.Model):
     parent_id = models.CharField(max_length=10, blank=True, null=True)
     user = models.OneToOneField(User, on_delete=models.CASCADE)
-    # parent_id = models.CharField(max_length=20, blank=True)
     email = models.EmailField(max_length=254, blank=True, null=True)
     phone_no = models.CharField(max_length=13, blank=True, null=True)
     address = models.CharField(max_length=254, blank=True, null=True)
@@ -139,11 +138,11 @@ class Parent(models.Model):
             if self.id is None:
                 if get_id_previous_parent is None:
                     self.parent_id = "P0001"
-                else:
-                    get_id_previous_parent = get_id_previous_parent + 1
-                    self.parent_id = "P" + str(get_id_previous_parent).zfill(4)
-            else:
-                self.parent_id = "P" + str(self.id).zfill(4)
+                get_id_previous_parent = get_id_previous_parent + 1
+                self.parent_id = "P" + str(get_id_previous_parent).zfill(4)
+            self.parent_id = "P" + str(self.id).zfill(4)
+        super().save(*args, **kwargs)
+        
 
 class MOH(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
