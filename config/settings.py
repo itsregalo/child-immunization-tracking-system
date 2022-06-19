@@ -28,7 +28,9 @@ SECRET_KEY = 'django-insecure-3tl&_gczv-=)co_i=k()6m^03%%q62qx^w2cpas%1p^*78)!od
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = [
+    'mercyvactrac.herokuapp.com',
+]
 
 
 # Application definition
@@ -52,6 +54,7 @@ INSTALLED_APPS = [
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
+    'whitenoise.middleware.WhiteNoiseMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
