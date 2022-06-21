@@ -275,6 +275,14 @@ def doctor_send_notification(request, *args, **kwargs):
     messages.error(request, 'You are not authorized to perform this action')
     return HttpResponseRedirect(reverse('core:index'))
 
+def clients(request, *args, **kwargs):
+    clients = Hospital.objects.all()
+
+    context = {
+        'clients': clients,
+    }
+    return render(request, 'hospitals.html', context)
+
 
 
 def terms_and_conditions(request, *args, **kwargs):

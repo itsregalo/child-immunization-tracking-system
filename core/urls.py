@@ -25,6 +25,8 @@ urlpatterns = [
     path('child-profile-update/<uuid>/', child_profile_update, name='child-profile-update'),
     path('child-profile-delete/<uuid:uuid>/', delete_child, name='child-delete'),
 
+    path('clients/', clients, name='clients'),
+
     path('terms-and-conditions/', terms_and_conditions, name='terms-and-conditions'),
     path('privacy-policy/', privacy_policy, name='privacy-policy'),
 ]

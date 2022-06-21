@@ -2,7 +2,8 @@ import uuid
 from django.db import models
 from django.utils.text import slugify
 from django.urls import reverse
-
+from imagekit.models import ImageSpecField
+from imagekit.processors import ResizeToFill
 # Create your models here.
 
 
@@ -18,6 +19,7 @@ class County(models.Model):
     class Meta:
         verbose_name_plural = 'Counties'
         ordering = ['county_no']
+        db_table = 'counties'
 
     def __str__(self):
         return self.name
@@ -25,6 +27,8 @@ class County(models.Model):
 class Hospital(models.Model):
     hospital_id = models.CharField(max_length=5, unique=True, blank=True, null=True)
     name = models.CharField(max_length=254)
+    image = models.ImageField(upload_to='hospital_images', blank=True, null=True)
+    image_thumbnail = ImageSpecField(source='image', processors=[ResizeToFill(470, 313)], format='JPEG', options={'quality': 60})
     license_no = models.CharField(max_length=20, blank=True, null=True)
     county = models.ForeignKey(County, blank=True, null=True, on_delete=models.CASCADE)
     phone_no = models.CharField(max_length=20, blank=True, null=True)
@@ -52,3 +56,8 @@ class Hospital(models.Model):
             else:
                 self.hospital_id = 'H' + str(self.id).zfill(4)
         super().save(*args, **kwargs)
+
+    class Meta:
+        verbose_name_plural = 'Hospitals'
+        ordering = ['name']
+        db_table = 'hospitals'

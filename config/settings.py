@@ -14,6 +14,7 @@ from pathlib import Path
 from django.contrib.messages import constants as messages
 import os
 
+from decouple import config
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -29,7 +30,7 @@ SECRET_KEY = 'django-insecure-3tl&_gczv-=)co_i=k()6m^03%%q62qx^w2cpas%1p^*78)!od
 DEBUG = True
 
 ALLOWED_HOSTS = [
-    'mercyvactrac.herokuapp.com',
+    'mercyvactrac.herokuapp.com', 'localhost', '127.0.0.1',
 ]
 
 
@@ -174,19 +175,19 @@ CKEDITOR_CONFIGS = {
 
 
 # mail_configurations
-# EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
-EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
-# EMAIL_HOST = "smtp.gmail.com"
-# EMAIL_HOST_USER = config('EMAIL_HOST_USER')
-# EMAIL_HOST_PASSWORD = config('EMAIL_HOST_PASSWORD')
-# EMAIL_USE_TLS = True #This is for encription    
-# EMAIL_PORT = 587
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+# EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+EMAIL_HOST = "smtp.gmail.com"
+EMAIL_HOST_USER = config('EMAIL_HOST_USER')
+EMAIL_HOST_PASSWORD = config('EMAIL_HOST_PASSWORD')
+EMAIL_USE_TLS = True #This is for encription    
+EMAIL_PORT = 587
 
 CHANNEL_LAYERS = {
     'default': {
         'BACKEND': 'channels_redis.core.RedisChannelLayer',
         'CONFIG': {
-            "hosts": [('mercyvactrac.herokuapp.com', 6379)],
+            "hosts": [(config('HOST_NAME'), 6379)],
         },
     },
 }
@@ -194,7 +195,7 @@ CHANNEL_LAYERS = {
 DRAMATIQ_BROKER = {
     "BROKER": "dramatiq.brokers.redis.RedisBroker",
     "OPTIONS": {
-        "url": 'mercyvactrac.herokuapp.com:6379/0',
+        "url": 'redis://'+config('HOST_NAME')+':6379/0',
     },
     "MIDDLEWARE": [
         "dramatiq.middleware.Prometheus",

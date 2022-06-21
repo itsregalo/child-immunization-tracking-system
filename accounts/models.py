@@ -1,6 +1,7 @@
 from distutils.command.upload import upload
 from email.policy import default
 from secrets import choice
+from tabnanny import verbose
 from tokenize import blank_re
 from django.db import models
 from django.contrib.auth.models import AbstractUser
@@ -64,6 +65,12 @@ class User(AbstractUser):
     USERNAME_FIELD = 'email'
     REQUIRED_FIELDS = ['username']
 
+
+    class Meta:
+        verbose_name_plural = 'Users'
+        db_table = 'users'
+        
+
 class Profile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
 
@@ -93,6 +100,10 @@ class Doctor(models.Model):
     is_verified = models.BooleanField(default=False)
     date_joined = models.DateTimeField(auto_now_add=True)
     doctor_id = models.CharField(max_length=10, blank=True, null=True)
+
+    class Meta:
+        verbose_name_plural = 'Doctors'
+        db_table = 'doctors'
 
     def save(self, *args, **kwargs):
         get_id_previous_doctor = Doctor.objects.last().id
@@ -126,6 +137,10 @@ class Parent(models.Model):
                                             options={'quality': 60}
                                                 )
 
+    class Meta:
+        verbose_name_plural = 'Parents'
+        db_table = 'parents'
+
     def __str__(self):
         return self.user.username
 
@@ -153,6 +168,7 @@ class MOH(models.Model):
 
     class Meta:
         verbose_name_plural = 'MOH'
+        db_table = 'moh'
 
     def __str__(self):
         return self.user.username
