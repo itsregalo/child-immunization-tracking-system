@@ -20,7 +20,6 @@ urlpatterns = [
     path('doctor-profile-settings/', doctor_profile_update, name='doctor-profile-update'),
     path('doctor-send-notification/', doctor_send_notification, name='doctor-send-notification'),
 
-
     path('create-child/', create_child, name='create-child'),
     path('child-profile-update/<uuid>/', child_profile_update, name='child-profile-update'),
     path('child-profile-delete/<uuid:uuid>/', delete_child, name='child-delete'),
