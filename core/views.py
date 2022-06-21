@@ -6,7 +6,7 @@ from accounts.models import *
 from .forms import ChildCreateForm, ChildImmunizationForm
 from accounts.forms import DoctorRegistrationForm
 from django.contrib import messages
-from django.http import HttpResponseRedirect
+from django.http import HttpResponseRedirect, HttpResponse
 from django.urls import reverse
 from decouple import config
 from django.core.mail import send_mail
@@ -296,3 +296,21 @@ def error_404(request, exception):
 
 def error_500(request):
     return render(request, '500.html')
+
+
+from django.views.generic import View
+from .process import html_to_pdf 
+from django.template.loader import render_to_string
+
+
+# view to generate pdf
+class GeneratePdf(View):
+     def get(self, request, *args, **kwargs):
+        data = models.Employees.objects.all().order_by('first_name')
+        open('templates/temp.html', "w").write(render_to_string('result.html', {'data': data}))
+
+        # Converting the HTML template into a PDF file
+        pdf = html_to_pdf('temp.html')
+         
+         # rendering the template
+        return HttpResponse(pdf, content_type='application/pdf')
