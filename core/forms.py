@@ -23,6 +23,7 @@ class ChildCreateForm(forms.ModelForm):
             'parent': forms.Select(attrs={'class':'form-control select'}),
         }
 
+
 class ChildImmunizationForm(forms.ModelForm):
     class Meta:
         model = ChildImmunization

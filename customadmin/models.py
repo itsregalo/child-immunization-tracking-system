@@ -36,6 +36,11 @@ class Hospital(models.Model):
     date_created = models.DateTimeField(auto_now_add=True)
     uuid = models.UUIDField(default=uuid.uuid4, editable=False, unique=True)
 
+    class Meta:
+        verbose_name_plural = 'Hospitals'
+        ordering = ['name']
+        db_table = 'hospitals'
+
     def __str__(self):
         return f'{self.name} -> { self.county }'
 
@@ -56,8 +61,3 @@ class Hospital(models.Model):
             else:
                 self.hospital_id = 'H' + str(self.id).zfill(4)
         super().save(*args, **kwargs)
-
-    class Meta:
-        verbose_name_plural = 'Hospitals'
-        ordering = ['name']
-        db_table = 'hospitals'
