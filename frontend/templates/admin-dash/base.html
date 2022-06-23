@@ -87,7 +87,7 @@
 													<img class="avatar-img rounded-circle" alt="User Image" src="{% static 'admin-static/assets/img/doctors/doctor-thumb-01.jpg' %}">
 												</span>
 												<div class="media-body">
-													<p class="noti-details"><span class="noti-title">Dr. Ruby Perrin</span> Schedule <span class="noti-title">her appointment</span></p>
+													<p class="noti-details"><span class="noti-title">Dr. {{ request.user.username }}</span> Schedule <span class="noti-title">her appointment</span></p>
 													<p class="noti-time"><span class="notification-time">4 mins ago</span></p>
 												</div>
 											</div>
@@ -152,7 +152,7 @@
 									<img src="{% static 'admin-static/assets/img/profiles/avatar-01.jpg' %}" alt="User Image" class="avatar-img rounded-circle">
 								</div>
 								<div class="user-text">
-									<h6>Ryan Taylor</h6>
+									<h6>{{ request.user.username }}</h6>
 									<p class="text-muted mb-0">Administrator</p>
 								</div>
 							</div>

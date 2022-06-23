@@ -90,6 +90,16 @@ class Child(models.Model):
     def get_absolute_url(self):
         return reverse('core:child-profile', kwargs={'uuid': self.uuid})
 
+    def get_child_age(self):
+        today = datetime.date.today()
+        age = today.year - self.date_of_birth.year
+        if today.month < self.date_of_birth.month:
+            age -= 1
+        elif today.month == self.date_of_birth.month:
+            if today.day < self.date_of_birth.day:
+                age -= 1
+        return age * 12 + (today.month - self.date_of_birth.month)
+
 
     def save(self, *args, **kwargs):
         try:

@@ -40,8 +40,6 @@
 													<th>Age</th>
 													<th>Address</th>
 													<th>Parent Phone</th>
-													<th>Last Visit</th>
-													<th class="text-right">Paid</th>
 												</tr>
 											</thead>
 											<tbody>
@@ -56,11 +54,9 @@
                                                                 <a href="{{child.get_absolute_url}}">{{child.first_name}} {{child.last_name}} </a>
                                                             </h2>
                                                         </td>
-                                                        <td>29</td>
+                                                        <td>{{ child.get_child_age }} month</td>
                                                         <td>{{ child.resident_county }}</td>
                                                         <td>{{ child.parent.user.phone_no }}</td>
-                                                        <td>20 Oct 2019</td>
-                                                        <td class="text-right">$100.00</td>
                                                     </tr>
                                                 
                                                 {% endfor %}
