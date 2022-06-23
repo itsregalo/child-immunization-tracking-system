@@ -4,10 +4,27 @@ from core.models import *
 from .forms import VaccineForm, HospitalForm
 from django.http import HttpResponseRedirect
 from .models import Hospital, County
+from django.contrib.auth.decorators import login_required
 # Create your views here.
 
+@login_required
 def IndexView(request):
-    return render(request, 'admin-dash/index.html')
+    doctors = Doctor.objects.filter(is_verified=True)
+    parents = Parent.objects.all()
+    children = Child.objects.all()
+    registered_hospitals = Hospital.objects.all()
+    vaccines = Vaccines.objects.all()
+    vaccine_defaulters = Child.objects.filter(is_defaulter=True)
+
+    context = {
+        'doctors':doctors,
+        'parents':parents,
+        'children':children,
+        'registered_hospitals':registered_hospitals,
+        'vaccines':vaccines,
+        'vaccine_defaulters':vaccine_defaulters
+    }
+    return render(request, 'admin-dash/index.html', context)
 
 def DoctorList(request, *args, **kwargs):
     doctors = Doctor.objects.all()

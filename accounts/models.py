@@ -61,6 +61,14 @@ class User(AbstractUser):
     is_ministry = models.BooleanField(default=False)
     phone_no = models.CharField(max_length=13, blank=True, null=True)
     ver_code = models.CharField(blank=True, null=True, max_length=10)
+    profile_picture = models.ImageField(upload_to='images/doctors_profile/%Y/%m', 
+                                        default='images/default-avatar.jpg',
+                                        blank=True, null=True)
+    profile_picture_thumbnail = ImageSpecField(source='profile_picture',
+                                            processors=[ResizeToFill(100, 100)],
+                                            format='JPEG',
+                                            options={'quality': 60}
+                                                )
 
     USERNAME_FIELD = 'email'
     REQUIRED_FIELDS = ['username']
