@@ -43,14 +43,14 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'django_dramatiq',
+    # 'django_dramatiq',
     
     'core',
     'accounts',
     'customadmin',
 
     'ckeditor',
-    'channels',
+    # 'channels',
 ]
 
 MIDDLEWARE = [
@@ -85,7 +85,7 @@ TEMPLATES = [
 ]
 
 WSGI_APPLICATION = 'config.wsgi.application'
-ASGI_APPLICATION = 'config.asgi.application'
+# ASGI_APPLICATION = 'config.asgi.application'
 
 
 # Database
@@ -183,29 +183,29 @@ EMAIL_HOST_PASSWORD = config('EMAIL_HOST_PASSWORD')
 EMAIL_USE_TLS = True #This is for encription    
 EMAIL_PORT = 587
 
-CHANNEL_LAYERS = {
-    'default': {
-        'BACKEND': 'channels_redis.core.RedisChannelLayer',
-        'CONFIG': {
-            "hosts": [(config('HOST_NAME'), 6379)],
-        },
-    },
-}
+# CHANNEL_LAYERS = {
+#     'default': {
+#         'BACKEND': 'channels_redis.core.RedisChannelLayer',
+#         'CONFIG': {
+#             "hosts": [(config('HOST_NAME'), 6379)],
+#         },
+#     },
+# }
 
-DRAMATIQ_BROKER = {
-    "BROKER": "dramatiq.brokers.redis.RedisBroker",
-    "OPTIONS": {
-        "url": 'redis://'+config('HOST_NAME')+':6379/0',
-    },
-    "MIDDLEWARE": [
-        "dramatiq.middleware.Prometheus",
-        "dramatiq.middleware.AgeLimit",
-        "dramatiq.middleware.TimeLimit",
-        "dramatiq.middleware.Callbacks",
-        "dramatiq.middleware.Retries",
-        "django_dramatiq.middleware.AdminMiddleware",
-        "django_dramatiq.middleware.DbConnectionsMiddleware",
-    ]
-}
+# DRAMATIQ_BROKER = {
+#     "BROKER": "dramatiq.brokers.redis.RedisBroker",
+#     "OPTIONS": {
+#         "url": 'redis://'+config('HOST_NAME')+':6379/0',
+#     },
+#     "MIDDLEWARE": [
+#         "dramatiq.middleware.Prometheus",
+#         "dramatiq.middleware.AgeLimit",
+#         "dramatiq.middleware.TimeLimit",
+#         "dramatiq.middleware.Callbacks",
+#         "dramatiq.middleware.Retries",
+#         "django_dramatiq.middleware.AdminMiddleware",
+#         "django_dramatiq.middleware.DbConnectionsMiddleware",
+#     ]
+# }
 
 REMINDER_TIME = 30
