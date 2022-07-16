@@ -209,4 +209,12 @@ CHANNEL_LAYERS = {
 #     ]
 # }
 
-REMINDER_TIME = 30
+# CELERY SETTINGS
+CELERY_BROKER_URL = 'redis://127.0.0.1:6379'
+CELERY_RESULT_BACKEND = 'django-db'
+CELERY_ACCEPT_CONTENT = ['application/json']
+CELERY_RESULT_SERIALIZER = 'json'
+CELERY_TASK_SELERLIZER = 'json'
+CELERY_TIMEZONE = 'Africa/Nairobi'
+
+CELERY_BEAT_SCHEDULER = 'django_celery_beat.schedulers:DatabaseScheduler'
