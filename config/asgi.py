@@ -7,27 +7,27 @@
 # https://docs.djangoproject.com/en/4.0/howto/deployment/asgi/
 # """
 
-# import os
+import os
 
-# import django
-# from channels.routing import ProtocolTypeRouter, URLRouter
-# from core.urls import websocket_urlpatterns
+import django
+from channels.routing import ProtocolTypeRouter, URLRouter
+from notification.urls import websocket_urlpatterns
 
-# from django.core.asgi import get_asgi_application
+from django.core.asgi import get_asgi_application
 
-# os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'config.settings')
-# django.setup()
+os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'config.settings')
+django.setup()
 
-# from channels.auth import AuthMiddleware, AuthMiddlewareStack
+from channels.auth import AuthMiddleware, AuthMiddlewareStack
 
-# application = ProtocolTypeRouter({
-#     "http": get_asgi_application(),
-#     "websocket": AuthMiddlewareStack(
-#         URLRouter(
-#             websocket_urlpatterns
-#         )
-#     )
-# })
+application = ProtocolTypeRouter({
+    "http": get_asgi_application(),
+    "websocket": AuthMiddlewareStack(
+        URLRouter(
+            websocket_urlpatterns
+        )
+    )
+})
 
 """
 ASGI config for config project.
@@ -38,10 +38,10 @@ For more information on this file, see
 https://docs.djangoproject.com/en/4.0/howto/deployment/asgi/
 """
 
-import os
+# import os
 
-from django.core.asgi import get_asgi_application
+# from django.core.asgi import get_asgi_application
 
-os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'config.settings')
+# os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'config.settings')
 
-application = get_asgi_application()
+# application = get_asgi_application()
