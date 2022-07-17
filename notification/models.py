@@ -8,6 +8,7 @@ import json
 
 
 class BroadcastNotification(models.Model):
+    user = models.ForeignKey('accounts.User', on_delete=models.CASCADE, blank=True, null=True)
     message = models.TextField()
     broadcast_on = models.DateTimeField()
     sent = models.BooleanField(default=False)
